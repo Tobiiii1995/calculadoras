@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)file:///C:/Users/Usuario/Downloads/constructor-plan-diario%20(1).html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constructor de Plan Diario · COMBUSTIBLE · Instituto BE</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0A0A;color:#F5F5F0;font-family:Arial,sans-serif;min-height:100vh;padding-bottom:60px}
+:root{--red:#E01A1A;--dark:#141414;--card:#1A1A1A;--gray:#262626;--mid:#888;--light:#CCC;--white:#F5F5F0;--blue:#1E88E5;--amber:#F9A825;--green:#43A047}
+.header{background:var(--dark);border-bottom:4px solid var(--red);padding:18px 24px 14px}
+.hi{max-width:980px;margin:0 auto}
+.tag{font-family:'Courier New',monospace;font-size:11px;color:var(--red);letter-spacing:3px;font-weight:700;margin-bottom:5px}
+.title{font-size:24px;font-weight:900;color:var(--white)}
+.title span{color:var(--red)}
+.sub{font-size:12px;color:var(--mid);margin-top:4px;font-style:italic}
+.wrap{max-width:980px;margin:0 auto;padding:0 12px}
+.targets-bar{background:var(--dark);border-bottom:2px solid #333;padding:12px 16px;position:sticky;top:0;z-index:100}
+.targets-inner{max-width:980px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.t-field{display:flex;flex-direction:column;gap:3px}
+.t-field label{font-size:10px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:1px}
+.t-field input{background:#1A1A1A;border:1.5px solid #383838;color:var(--white);font-size:15px;font-weight:700;padding:7px 10px;outline:none;width:100px;-moz-appearance:textfield;border-radius:0}
+.t-field input::-webkit-outer-spin-button,.t-field input::-webkit-inner-spin-button{-webkit-appearance:none}
+.t-field input:focus{border-color:var(--red)}
+.t-sep{width:1px;background:#333;height:40px;align-self:center}
+.progress-wrap{max-width:980px;margin:0 auto;padding:10px 12px;background:var(--dark);border-bottom:2px solid #222}
+.prog-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.prog-item{flex:1;min-width:140px}
+.prog-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.prog-lbl{font-size:11px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:1px}
+.prog-val{font-size:14px;font-weight:700}
+.prog-bar{height:8px;background:#2A2A2A;overflow:hidden}
+.prog-fill{height:100%;transition:width .3s ease}
+.prog-remain{font-size:10px;color:var(--mid);margin-top:2px}
+.main{display:grid;grid-template-columns:1fr 320px;gap:10px;margin-top:12px}
+.meals-col{display:flex;flex-direction:column;gap:8px}
+.summary-col{position:sticky;top:140px;height:fit-content}
+.meal{background:var(--card);position:relative}
+.meal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.meal-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 10px;border-bottom:1px solid #2A2A2A}
+.meal-title{font-size:15px;font-weight:700;color:var(--white)}
+.meal-emoji{font-size:20px;margin-right:8px}
+.meal-macros{display:flex;gap:10px;font-size:12px}
+.meal-body{padding:12px 16px 14px}
+.add-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.food-select{flex:1;min-width:180px;background:var(--gray);border:1.5px solid #383838;color:var(--white);font-size:13px;padding:8px 10px;outline:none;cursor:pointer;border-radius:0}
+.food-select:focus{border-color:var(--red)}
+.qty-wrap{display:flex;align-items:center;gap:6px}
+.qty-lbl{font-size:11px;color:var(--mid);white-space:nowrap;font-family:'Courier New',monospace}
+.qty-input{background:var(--gray);border:1.5px solid #383838;color:var(--white);font-size:14px;font-weight:700;padding:8px;outline:none;width:70px;-moz-appearance:textfield;border-radius:0;text-align:center}
+.qty-input::-webkit-outer-spin-button,.qty-input::-webkit-inner-spin-button{-webkit-appearance:none}
+.add-btn{background:var(--red);color:#fff;border:none;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Courier New',monospace;transition:all .15s}
+.add-btn:hover{background:#c01515}
+.food-items{display:flex;flex-direction:column;gap:4px}
+.food-item{background:var(--gray);padding:8px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fi-name{font-size:13px;color:var(--white);font-weight:500;flex:1}
+.fi-qty{font-size:11px;color:var(--mid);font-family:'Courier New',monospace;white-space:nowrap}
+.fi-macros{display:flex;gap:8px;font-size:12px}
+.fi-p{color:var(--blue)}
+.fi-c{color:var(--amber)}
+.fi-g{color:var(--green)}
+.fi-kcal{color:var(--red);font-weight:700;font-size:12px}
+.fi-del{background:none;border:none;color:#555;cursor:pointer;font-size:16px;padding:0 4px;transition:color .12s}
+.fi-del:hover{color:var(--red)}
+.empty-msg{font-size:12px;color:#555;font-style:italic;padding:6px 0}
+.summary{background:var(--card);padding:16px}
+.sum-title{font-size:12px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:2px;margin-bottom:12px}
+.sum-cards{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.sum-card{background:var(--gray);padding:10px 12px;border-left:3px solid}
+.sum-card-lbl{font-size:10px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:1px;margin-bottom:2px}
+.sum-card-val{font-size:22px;font-weight:900}
+.sum-card-sub{font-size:11px;color:var(--mid);margin-top:1px}
+.sum-meals{margin-top:12px}
+.sum-meal{padding:8px 0;border-bottom:1px solid #2A2A2A;display:flex;justify-content:space-between;align-items:center}
+.sum-meal:last-child{border-bottom:none}
+.sum-meal-name{font-size:13px;color:var(--light)}
+.sum-meal-kcal{font-size:14px;font-weight:700;color:var(--red)}
+.export-btn{background:var(--gray);border:1.5px solid #444;color:var(--light);padding:10px;font-size:12px;cursor:pointer;width:100%;margin-top:12px;font-family:'Courier New',monospace;transition:all .15s;letter-spacing:1px}
+.export-btn:hover{border-color:var(--red);color:var(--white)}
+.clear-btn{background:none;border:1.5px solid #333;color:#555;padding:8px;font-size:11px;cursor:pointer;width:100%;margin-top:6px;font-family:'Courier New',monospace;transition:all .15s}
+.clear-btn:hover{border-color:#666;color:var(--mid)}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.vis{display:flex}
+.modal{background:var(--card);max-width:600px;width:100%;max-height:80vh;overflow-y:auto}
+.modal-header{background:var(--dark);padding:16px 20px;border-bottom:3px solid var(--red);display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-size:16px;font-weight:700;color:var(--white)}
+.modal-close{background:none;border:none;color:var(--mid);font-size:24px;cursor:pointer}
+.modal-body{padding:20px;white-space:pre-wrap;font-family:'Courier New',monospace;font-size:13px;color:var(--light);line-height:1.7}
+.copy-btn{display:block;width:100%;background:var(--red);color:#fff;border:none;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Courier New',monospace;letter-spacing:2px}
+@media(max-width:700px){.main{grid-template-columns:1fr}.summary-col{position:static}.targets-inner{gap:8px}.t-field input{width:80px}}
+
+/* CUSTOM FOODS PANEL */
+.custom-panel{background:var(--dark);border-bottom:2px solid #333;padding:0}
+.custom-toggle{width:100%;background:none;border:none;color:var(--light);padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-family:'Courier New',monospace;letter-spacing:1px}
+.custom-toggle:hover{background:#1A1A1A}
+.custom-toggle .ct-icon{color:var(--red);font-size:16px;transition:transform .2s}
+.custom-toggle.open .ct-icon{transform:rotate(45deg)}
+.custom-body{display:none;padding:14px 16px;border-top:1px solid #2A2A2A}
+.custom-body.vis{display:block}
+.custom-form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.cf{display:flex;flex-direction:column;gap:4px}
+.cf label{font-size:10px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:1px}
+.cf input{background:var(--gray);border:1.5px solid #383838;color:var(--white);font-size:13px;padding:7px 9px;outline:none;-moz-appearance:textfield;border-radius:0;width:100%}
+.cf input::-webkit-outer-spin-button,.cf input::-webkit-inner-spin-button{-webkit-appearance:none}
+.cf input:focus{border-color:var(--red)}
+.cf-name{flex:2;min-width:160px}
+.cf-unit{flex:1;min-width:90px}
+.cf-base{flex:0 0 70px}
+.cf-macro{flex:0 0 65px}
+.save-btn{background:var(--red);color:#fff;border:none;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Courier New',monospace;align-self:flex-end;white-space:nowrap;transition:all .15s}
+.save-btn:hover{background:#c01515}
+.custom-list{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
+.custom-item{background:var(--gray);padding:8px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ci-name{font-size:12px;color:var(--white);font-weight:600;flex:1}
+.ci-macros{font-size:11px;color:var(--mid);font-family:'Courier New',monospace}
+.ci-del{background:none;border:none;color:#555;cursor:pointer;font-size:14px;padding:0 4px;transition:color .12s}
+.ci-del:hover{color:var(--red)}
+.custom-empty{font-size:12px;color:#555;font-style:italic;padding:4px 0}
+.custom-tip{font-size:11px;color:var(--mid);margin-top:8px;font-style:italic}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="hi">
+    <div class="tag">COMBUSTIBLE · Instituto BE</div>
+    <div class="title">Constructor de plan diario<span> ·</span></div>
+    <div class="sub">Ingresá los targets de la calculadora y armá el día con comida real uruguaya.</div>
+  </div>
+</div>
+<div class="targets-bar">
+  <div class="targets-inner">
+    <div class="t-field"><label>KCAL OBJETIVO</label><input type="number" id="tKcal" placeholder="1800" value="1800" onchange="updateProgress()"></div>
+    <div class="t-sep"></div>
+    <div class="t-field"><label>PROTEÍNA (g)</label><input type="number" id="tProt" placeholder="130" value="130" onchange="updateProgress()"></div>
+    <div class="t-field"><label>CARBOS (g)</label><input type="number" id="tCarbs" placeholder="180" value="180" onchange="updateProgress()"></div>
+    <div class="t-field"><label>GRASA (g)</label><input type="number" id="tFat" placeholder="55" value="55" onchange="updateProgress()"></div>
+    <div style="font-size:11px;color:var(--mid);margin-left:auto;font-style:italic;align-self:center">← Copiá los valores de tu calculadora</div>
+  </div>
+</div>
+<div class="progress-wrap"><div class="prog-row" id="prog-row"><div class="prog-item"><div class="prog-top"><span class="prog-lbl">KCAL</span><span class="prog-val" style="color:#888">0<span style="color:var(--mid);font-size:11px;font-weight:400"> / 1800</span></span></div><div class="prog-bar"><div class="prog-fill" style="width:0%;background:#888"></div></div><div class="prog-remain">Faltan 1800 kcal</div></div><div class="prog-item"><div class="prog-top"><span class="prog-lbl">PROTEÍNA</span><span class="prog-val" style="color:#888">0<span style="color:var(--mid);font-size:11px;font-weight:400"> / 130</span></span></div><div class="prog-bar"><div class="prog-fill" style="width:0%;background:#888"></div></div><div class="prog-remain">Faltan 130 g</div></div><div class="prog-item"><div class="prog-top"><span class="prog-lbl">CARBOS</span><span class="prog-val" style="color:#888">0<span style="color:var(--mid);font-size:11px;font-weight:400"> / 180</span></span></div><div class="prog-bar"><div class="prog-fill" style="width:0%;background:#888"></div></div><div class="prog-remain">Faltan 180 g</div></div><div class="prog-item"><div class="prog-top"><span class="prog-lbl">GRASA</span><span class="prog-val" style="color:#888">0<span style="color:var(--mid);font-size:11px;font-weight:400"> / 55</span></span></div><div class="prog-bar"><div class="prog-fill" style="width:0%;background:#888"></div></div><div class="prog-remain">Faltan 55 g</div></div></div></div>
+<div class="custom-panel" id="custom-panel">
+  <button class="custom-toggle" id="custom-toggle" onclick="toggleCustom()">
+    <span>➕ MIS ALIMENTOS PERSONALIZADOS — agregar alimentos que no están en la lista</span>
+    <span class="ct-icon">+</span>
+  </button>
+  <div class="custom-body" id="custom-body">
+    <div class="custom-form">
+      <div class="cf cf-name"><label>NOMBRE DEL ALIMENTO</label><input type="text" id="cf-name" placeholder="Ej: Queso port salut..."></div>
+      <div class="cf cf-unit"><label>UNIDAD</label><input type="text" id="cf-unit" placeholder="g / unidades / cdas"></div>
+      <div class="cf cf-base"><label>CANT. BASE</label><input type="number" id="cf-base" placeholder="100" min="0.1"></div>
+      <div class="cf cf-macro"><label>PROTEÍNA (g)</label><input type="number" id="cf-p" placeholder="0" min="0" step="0.1"></div>
+      <div class="cf cf-macro"><label>CARBOS (g)</label><input type="number" id="cf-c" placeholder="0" min="0" step="0.1"></div>
+      <div class="cf cf-macro"><label>GRASA (g)</label><input type="number" id="cf-f" placeholder="0" min="0" step="0.1"></div>
+      <div class="cf cf-macro"><label>KCAL</label><input type="number" id="cf-k" placeholder="0" min="0" step="1"></div>
+      <button class="save-btn" onclick="saveCustomFood()">GUARDAR →</button>
+    </div>
+    <div id="custom-list" class="custom-list"><div class="custom-empty">No hay alimentos personalizados todavía.</div></div>
+    <div class="custom-tip">Los alimentos guardados se mantienen aunque cierres el archivo y vuelvas a abrirlo.</div>
+  </div>
+</div>
+<div class="wrap">
+<div class="main">
+<div class="meals-col" id="meals-col">
+    <div class="meal"><style>.meal[data-id="desayuno"]::before{background:#F9A825}</style>
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#F9A825"></div>
+    <div class="meal-header" id="mh-desayuno">
+      <div style="display:flex;align-items:center"><span class="meal-emoji">☀️</span><span class="meal-title" style="color:#F9A825">Desayuno</span></div>
+      <div class="meal-macros"><span style="color:var(--blue)">0g P</span><span style="color:var(--amber)">0g C</span><span style="color:var(--green)">0g G</span><span style="color:var(--red);font-weight:700">0 kcal</span></div>
+    </div>
+    <div class="meal-body">
+      <div class="add-row">
+        <select class="food-select" id="sel-desayuno" onchange="(()=&gt;{const v=this.value;if(v){const[c,i]=v.split(&#39;|&#39;);document.getElementById(&#39;qty-desayuno&#39;).value=FOODS[c][parseInt(i)].base;}})()">
+          <option value="">— Seleccionar alimento —</option><optgroup label="CARNES Y AVES"><option value="CARNES Y AVES|0">Pechuga de pollo (cocida) (x 150 g)</option><option value="CARNES Y AVES|1">Muslo de pollo s/piel (cocido) (x 150 g)</option><option value="CARNES Y AVES|2">Pollo a la parrilla / plancha (x 150 g)</option><option value="CARNES Y AVES|3">Carne vacuna magra (nalga, cuadril) (x 150 g)</option><option value="CARNES Y AVES|4">Carne vacuna al horno (x 150 g)</option><option value="CARNES Y AVES|5">Asado (costilla) (x 150 g)</option><option value="CARNES Y AVES|6">Hígado vacuno (x 100 g)</option><option value="CARNES Y AVES|7">Carne de cerdo magra (lomo) (x 150 g)</option><option value="CARNES Y AVES|8">Carne de cerdo al horno (x 150 g)</option></optgroup><optgroup label="PESCADOS"><option value="PESCADOS|0">Atún al natural (lata escurrida) (x 170 g)</option><option value="PESCADOS|1">Merluza (filete cocido) (x 150 g)</option><option value="PESCADOS|2">Salmón (filete cocido) (x 150 g)</option><option value="PESCADOS|3">Sardinas en lata (escurridas) (x 100 g)</option></optgroup><optgroup label="HUEVOS"><option value="HUEVOS|0">Huevo entero (mediano) (x 1 unidades)</option><option value="HUEVOS|1">Huevo revuelto (2 unidades + aceite) (x 1 porciones)</option><option value="HUEVOS|2">Clara de huevo (x 1 unidades)</option></optgroup><optgroup label="LÁCTEOS"><option value="LÁCTEOS|0">Leche entera (x 250 ml)</option><option value="LÁCTEOS|1">Leche descremada (x 250 ml)</option><option value="LÁCTEOS|2">Yogur natural entero (x 200 g)</option><option value="LÁCTEOS|3">Yogur griego natural (x 200 g)</option><option value="LÁCTEOS|4">Queso colonia (x 40 g)</option><option value="LÁCTEOS|5">Queso gouda / edam (x 40 g)</option><option value="LÁCTEOS|6">Queso mozzarella (x 40 g)</option><option value="LÁCTEOS|7">Queso magro / descremado (x 40 g)</option><option value="LÁCTEOS|8">Ricota entera (x 80 g)</option><option value="LÁCTEOS|9">Crema de leche (x 30 ml)</option></optgroup><optgroup label="FIAMBRES"><option value="FIAMBRES|0">Jamón crudo (x 3 lonchas)</option><option value="FIAMBRES|1">Bondiola (x 3 lonchas)</option></optgroup><optgroup label="CEREALES"><option value="CEREALES|0">Arroz blanco cocido (x 150 g)</option><option value="CEREALES|1">Arroz integral cocido (x 150 g)</option><option value="CEREALES|2">Avena en copos (cruda) (x 45 g)</option><option value="CEREALES|3">Pan integral (x 2 rebanadas)</option><option value="CEREALES|4">Granola sin azúcar (x 45 g)</option></optgroup><optgroup label="TUBÉRCULOS"><option value="TUBÉRCULOS|0">Papa hervida (x 150 g)</option><option value="TUBÉRCULOS|1">Papa al horno (x 150 g)</option><option value="TUBÉRCULOS|2">Papa fría recalentada (x 150 g)</option><option value="TUBÉRCULOS|3">Boniato / batata cocido (x 150 g)</option></optgroup><optgroup label="LEGUMBRES"><option value="LEGUMBRES|0">Lentejas cocidas (x 180 g)</option><option value="LEGUMBRES|1">Garbanzos cocidos (x 180 g)</option><option value="LEGUMBRES|2">Porotos cocidos (x 180 g)</option><option value="LEGUMBRES|3">Tofu firme (x 150 g)</option></optgroup><optgroup label="FRUTAS"><option value="FRUTAS|0">Banana mediana (x 1 unidades)</option><option value="FRUTAS|1">Manzana mediana (x 1 unidades)</option><option value="FRUTAS|2">Naranja mediana (x 1 unidades)</option><option value="FRUTAS|3">Mandarina (x 2 unidades)</option><option value="FRUTAS|4">Pera mediana (x 1 unidades)</option><option value="FRUTAS|5">Durazno / melocotón (x 1 unidades)</option><option value="FRUTAS|6">Ciruela (x 2 unidades)</option><option value="FRUTAS|7">Kiwi (x 2 unidades)</option><option value="FRUTAS|8">Mango (x 150 g)</option><option value="FRUTAS|9">Piña / ananá (x 150 g)</option><option value="FRUTAS|10">Sandía (x 250 g)</option><option value="FRUTAS|11">Melón (x 200 g)</option><option value="FRUTAS|12">Uva (x 100 g)</option><option value="FRUTAS|13">Frutillas (x 150 g)</option><option value="FRUTAS|14">Arándanos (x 75 g)</option><option value="FRUTAS|15">Frambuesas (x 60 g)</option><option value="FRUTAS|16">Pomelo (½ unidad) (x 1 unidades)</option><option value="FRUTAS|17">Cerezas (x 140 g)</option><option value="FRUTAS|18">Papaya / mamón (x 140 g)</option></optgroup><optgroup label="ACEITES Y GRASAS"><option value="ACEITES Y GRASAS|0">Aceite de oliva extra virgen (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|1">Aceite de coco (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|2">Manteca (x 1 cditas)</option><option value="ACEITES Y GRASAS|3">Manteca de maní (sin azúcar) (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|4">Palta / aguacate (x 80 g)</option></optgroup><optgroup label="FRUTOS SECOS Y SEMILLAS"><option value="FRUTOS SECOS Y SEMILLAS|0">Maní tostado sin sal (x 30 g)</option><option value="FRUTOS SECOS Y SEMILLAS|1">Almendras (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|2">Nueces (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|3">Castañas de cajú / cashew (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|4">Semillas de chía (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|5">Semillas de lino molido (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|6">Semillas de girasol (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|7">Semillas de calabaza (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|8">Queso parmesano rallado (x 2 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|9">Crema de leche entera (x 30 ml)</option></optgroup><optgroup label="BEBIDAS"><option value="BEBIDAS|0">Leche entera (vaso) (x 1 vasos)</option><option value="BEBIDAS|1">Leche descremada (vaso) (x 1 vasos)</option><option value="BEBIDAS|2">Café con leche entera (x 1 tazas)</option><option value="BEBIDAS|3">Café con leche descremada (x 1 tazas)</option><option value="BEBIDAS|4">Café solo (sin azúcar) (x 1 tazas)</option><option value="BEBIDAS|5">Mate (sin azúcar) (x 1 cebadas)</option><option value="BEBIDAS|6">Agua (x 1 vasos)</option></optgroup><optgroup label="VERDURAS (bajo impacto calórico)"><option value="VERDURAS (bajo impacto calórico)|0">Lechuga / rúcula / espinaca (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|1">Tomate (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|2">Zanahoria (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|3">Pepino (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|4">Morrón / pimiento (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|5">Brócoli cocido (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|6">Zapallito / zucchini (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|7">Cebolla (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|8">Chauchas cocidas (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|9">Berenjena asada (x 100 g)</option></optgroup>
+        </select>
+        <div class="qty-wrap"><span class="qty-lbl">Cant.:</span><input type="number" class="qty-input" id="qty-desayuno" placeholder="..." min="0.1" step="0.5"></div>
+        <button class="add-btn" onclick="addFood(&#39;desayuno&#39;)">+ AGREGAR</button>
+      </div>
+      <div class="food-items" id="items-desayuno"><div class="empty-msg">Sin alimentos — usá el selector para agregar.</div></div>
+    </div></div>
+    <div class="meal"><style>.meal[data-id="almuerzo"]::before{background:#1E88E5}</style>
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#1E88E5"></div>
+    <div class="meal-header" id="mh-almuerzo">
+      <div style="display:flex;align-items:center"><span class="meal-emoji">🍽️</span><span class="meal-title" style="color:#1E88E5">Almuerzo</span></div>
+      <div class="meal-macros"><span style="color:var(--blue)">0g P</span><span style="color:var(--amber)">0g C</span><span style="color:var(--green)">0g G</span><span style="color:var(--red);font-weight:700">0 kcal</span></div>
+    </div>
+    <div class="meal-body">
+      <div class="add-row">
+        <select class="food-select" id="sel-almuerzo" onchange="(()=&gt;{const v=this.value;if(v){const[c,i]=v.split(&#39;|&#39;);document.getElementById(&#39;qty-almuerzo&#39;).value=FOODS[c][parseInt(i)].base;}})()">
+          <option value="">— Seleccionar alimento —</option><optgroup label="CARNES Y AVES"><option value="CARNES Y AVES|0">Pechuga de pollo (cocida) (x 150 g)</option><option value="CARNES Y AVES|1">Muslo de pollo s/piel (cocido) (x 150 g)</option><option value="CARNES Y AVES|2">Pollo a la parrilla / plancha (x 150 g)</option><option value="CARNES Y AVES|3">Carne vacuna magra (nalga, cuadril) (x 150 g)</option><option value="CARNES Y AVES|4">Carne vacuna al horno (x 150 g)</option><option value="CARNES Y AVES|5">Asado (costilla) (x 150 g)</option><option value="CARNES Y AVES|6">Hígado vacuno (x 100 g)</option><option value="CARNES Y AVES|7">Carne de cerdo magra (lomo) (x 150 g)</option><option value="CARNES Y AVES|8">Carne de cerdo al horno (x 150 g)</option></optgroup><optgroup label="PESCADOS"><option value="PESCADOS|0">Atún al natural (lata escurrida) (x 170 g)</option><option value="PESCADOS|1">Merluza (filete cocido) (x 150 g)</option><option value="PESCADOS|2">Salmón (filete cocido) (x 150 g)</option><option value="PESCADOS|3">Sardinas en lata (escurridas) (x 100 g)</option></optgroup><optgroup label="HUEVOS"><option value="HUEVOS|0">Huevo entero (mediano) (x 1 unidades)</option><option value="HUEVOS|1">Huevo revuelto (2 unidades + aceite) (x 1 porciones)</option><option value="HUEVOS|2">Clara de huevo (x 1 unidades)</option></optgroup><optgroup label="LÁCTEOS"><option value="LÁCTEOS|0">Leche entera (x 250 ml)</option><option value="LÁCTEOS|1">Leche descremada (x 250 ml)</option><option value="LÁCTEOS|2">Yogur natural entero (x 200 g)</option><option value="LÁCTEOS|3">Yogur griego natural (x 200 g)</option><option value="LÁCTEOS|4">Queso colonia (x 40 g)</option><option value="LÁCTEOS|5">Queso gouda / edam (x 40 g)</option><option value="LÁCTEOS|6">Queso mozzarella (x 40 g)</option><option value="LÁCTEOS|7">Queso magro / descremado (x 40 g)</option><option value="LÁCTEOS|8">Ricota entera (x 80 g)</option><option value="LÁCTEOS|9">Crema de leche (x 30 ml)</option></optgroup><optgroup label="FIAMBRES"><option value="FIAMBRES|0">Jamón crudo (x 3 lonchas)</option><option value="FIAMBRES|1">Bondiola (x 3 lonchas)</option></optgroup><optgroup label="CEREALES"><option value="CEREALES|0">Arroz blanco cocido (x 150 g)</option><option value="CEREALES|1">Arroz integral cocido (x 150 g)</option><option value="CEREALES|2">Avena en copos (cruda) (x 45 g)</option><option value="CEREALES|3">Pan integral (x 2 rebanadas)</option><option value="CEREALES|4">Granola sin azúcar (x 45 g)</option></optgroup><optgroup label="TUBÉRCULOS"><option value="TUBÉRCULOS|0">Papa hervida (x 150 g)</option><option value="TUBÉRCULOS|1">Papa al horno (x 150 g)</option><option value="TUBÉRCULOS|2">Papa fría recalentada (x 150 g)</option><option value="TUBÉRCULOS|3">Boniato / batata cocido (x 150 g)</option></optgroup><optgroup label="LEGUMBRES"><option value="LEGUMBRES|0">Lentejas cocidas (x 180 g)</option><option value="LEGUMBRES|1">Garbanzos cocidos (x 180 g)</option><option value="LEGUMBRES|2">Porotos cocidos (x 180 g)</option><option value="LEGUMBRES|3">Tofu firme (x 150 g)</option></optgroup><optgroup label="FRUTAS"><option value="FRUTAS|0">Banana mediana (x 1 unidades)</option><option value="FRUTAS|1">Manzana mediana (x 1 unidades)</option><option value="FRUTAS|2">Naranja mediana (x 1 unidades)</option><option value="FRUTAS|3">Mandarina (x 2 unidades)</option><option value="FRUTAS|4">Pera mediana (x 1 unidades)</option><option value="FRUTAS|5">Durazno / melocotón (x 1 unidades)</option><option value="FRUTAS|6">Ciruela (x 2 unidades)</option><option value="FRUTAS|7">Kiwi (x 2 unidades)</option><option value="FRUTAS|8">Mango (x 150 g)</option><option value="FRUTAS|9">Piña / ananá (x 150 g)</option><option value="FRUTAS|10">Sandía (x 250 g)</option><option value="FRUTAS|11">Melón (x 200 g)</option><option value="FRUTAS|12">Uva (x 100 g)</option><option value="FRUTAS|13">Frutillas (x 150 g)</option><option value="FRUTAS|14">Arándanos (x 75 g)</option><option value="FRUTAS|15">Frambuesas (x 60 g)</option><option value="FRUTAS|16">Pomelo (½ unidad) (x 1 unidades)</option><option value="FRUTAS|17">Cerezas (x 140 g)</option><option value="FRUTAS|18">Papaya / mamón (x 140 g)</option></optgroup><optgroup label="ACEITES Y GRASAS"><option value="ACEITES Y GRASAS|0">Aceite de oliva extra virgen (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|1">Aceite de coco (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|2">Manteca (x 1 cditas)</option><option value="ACEITES Y GRASAS|3">Manteca de maní (sin azúcar) (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|4">Palta / aguacate (x 80 g)</option></optgroup><optgroup label="FRUTOS SECOS Y SEMILLAS"><option value="FRUTOS SECOS Y SEMILLAS|0">Maní tostado sin sal (x 30 g)</option><option value="FRUTOS SECOS Y SEMILLAS|1">Almendras (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|2">Nueces (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|3">Castañas de cajú / cashew (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|4">Semillas de chía (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|5">Semillas de lino molido (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|6">Semillas de girasol (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|7">Semillas de calabaza (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|8">Queso parmesano rallado (x 2 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|9">Crema de leche entera (x 30 ml)</option></optgroup><optgroup label="BEBIDAS"><option value="BEBIDAS|0">Leche entera (vaso) (x 1 vasos)</option><option value="BEBIDAS|1">Leche descremada (vaso) (x 1 vasos)</option><option value="BEBIDAS|2">Café con leche entera (x 1 tazas)</option><option value="BEBIDAS|3">Café con leche descremada (x 1 tazas)</option><option value="BEBIDAS|4">Café solo (sin azúcar) (x 1 tazas)</option><option value="BEBIDAS|5">Mate (sin azúcar) (x 1 cebadas)</option><option value="BEBIDAS|6">Agua (x 1 vasos)</option></optgroup><optgroup label="VERDURAS (bajo impacto calórico)"><option value="VERDURAS (bajo impacto calórico)|0">Lechuga / rúcula / espinaca (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|1">Tomate (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|2">Zanahoria (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|3">Pepino (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|4">Morrón / pimiento (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|5">Brócoli cocido (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|6">Zapallito / zucchini (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|7">Cebolla (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|8">Chauchas cocidas (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|9">Berenjena asada (x 100 g)</option></optgroup>
+        </select>
+        <div class="qty-wrap"><span class="qty-lbl">Cant.:</span><input type="number" class="qty-input" id="qty-almuerzo" placeholder="..." min="0.1" step="0.5"></div>
+        <button class="add-btn" onclick="addFood(&#39;almuerzo&#39;)">+ AGREGAR</button>
+      </div>
+      <div class="food-items" id="items-almuerzo"><div class="empty-msg">Sin alimentos — usá el selector para agregar.</div></div>
+    </div></div>
+    <div class="meal"><style>.meal[data-id="merienda"]::before{background:#7B1FA2}</style>
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#7B1FA2"></div>
+    <div class="meal-header" id="mh-merienda">
+      <div style="display:flex;align-items:center"><span class="meal-emoji">☕</span><span class="meal-title" style="color:#7B1FA2">Merienda</span></div>
+      <div class="meal-macros"><span style="color:var(--blue)">0g P</span><span style="color:var(--amber)">0g C</span><span style="color:var(--green)">0g G</span><span style="color:var(--red);font-weight:700">0 kcal</span></div>
+    </div>
+    <div class="meal-body">
+      <div class="add-row">
+        <select class="food-select" id="sel-merienda" onchange="(()=&gt;{const v=this.value;if(v){const[c,i]=v.split(&#39;|&#39;);document.getElementById(&#39;qty-merienda&#39;).value=FOODS[c][parseInt(i)].base;}})()">
+          <option value="">— Seleccionar alimento —</option><optgroup label="CARNES Y AVES"><option value="CARNES Y AVES|0">Pechuga de pollo (cocida) (x 150 g)</option><option value="CARNES Y AVES|1">Muslo de pollo s/piel (cocido) (x 150 g)</option><option value="CARNES Y AVES|2">Pollo a la parrilla / plancha (x 150 g)</option><option value="CARNES Y AVES|3">Carne vacuna magra (nalga, cuadril) (x 150 g)</option><option value="CARNES Y AVES|4">Carne vacuna al horno (x 150 g)</option><option value="CARNES Y AVES|5">Asado (costilla) (x 150 g)</option><option value="CARNES Y AVES|6">Hígado vacuno (x 100 g)</option><option value="CARNES Y AVES|7">Carne de cerdo magra (lomo) (x 150 g)</option><option value="CARNES Y AVES|8">Carne de cerdo al horno (x 150 g)</option></optgroup><optgroup label="PESCADOS"><option value="PESCADOS|0">Atún al natural (lata escurrida) (x 170 g)</option><option value="PESCADOS|1">Merluza (filete cocido) (x 150 g)</option><option value="PESCADOS|2">Salmón (filete cocido) (x 150 g)</option><option value="PESCADOS|3">Sardinas en lata (escurridas) (x 100 g)</option></optgroup><optgroup label="HUEVOS"><option value="HUEVOS|0">Huevo entero (mediano) (x 1 unidades)</option><option value="HUEVOS|1">Huevo revuelto (2 unidades + aceite) (x 1 porciones)</option><option value="HUEVOS|2">Clara de huevo (x 1 unidades)</option></optgroup><optgroup label="LÁCTEOS"><option value="LÁCTEOS|0">Leche entera (x 250 ml)</option><option value="LÁCTEOS|1">Leche descremada (x 250 ml)</option><option value="LÁCTEOS|2">Yogur natural entero (x 200 g)</option><option value="LÁCTEOS|3">Yogur griego natural (x 200 g)</option><option value="LÁCTEOS|4">Queso colonia (x 40 g)</option><option value="LÁCTEOS|5">Queso gouda / edam (x 40 g)</option><option value="LÁCTEOS|6">Queso mozzarella (x 40 g)</option><option value="LÁCTEOS|7">Queso magro / descremado (x 40 g)</option><option value="LÁCTEOS|8">Ricota entera (x 80 g)</option><option value="LÁCTEOS|9">Crema de leche (x 30 ml)</option></optgroup><optgroup label="FIAMBRES"><option value="FIAMBRES|0">Jamón crudo (x 3 lonchas)</option><option value="FIAMBRES|1">Bondiola (x 3 lonchas)</option></optgroup><optgroup label="CEREALES"><option value="CEREALES|0">Arroz blanco cocido (x 150 g)</option><option value="CEREALES|1">Arroz integral cocido (x 150 g)</option><option value="CEREALES|2">Avena en copos (cruda) (x 45 g)</option><option value="CEREALES|3">Pan integral (x 2 rebanadas)</option><option value="CEREALES|4">Granola sin azúcar (x 45 g)</option></optgroup><optgroup label="TUBÉRCULOS"><option value="TUBÉRCULOS|0">Papa hervida (x 150 g)</option><option value="TUBÉRCULOS|1">Papa al horno (x 150 g)</option><option value="TUBÉRCULOS|2">Papa fría recalentada (x 150 g)</option><option value="TUBÉRCULOS|3">Boniato / batata cocido (x 150 g)</option></optgroup><optgroup label="LEGUMBRES"><option value="LEGUMBRES|0">Lentejas cocidas (x 180 g)</option><option value="LEGUMBRES|1">Garbanzos cocidos (x 180 g)</option><option value="LEGUMBRES|2">Porotos cocidos (x 180 g)</option><option value="LEGUMBRES|3">Tofu firme (x 150 g)</option></optgroup><optgroup label="FRUTAS"><option value="FRUTAS|0">Banana mediana (x 1 unidades)</option><option value="FRUTAS|1">Manzana mediana (x 1 unidades)</option><option value="FRUTAS|2">Naranja mediana (x 1 unidades)</option><option value="FRUTAS|3">Mandarina (x 2 unidades)</option><option value="FRUTAS|4">Pera mediana (x 1 unidades)</option><option value="FRUTAS|5">Durazno / melocotón (x 1 unidades)</option><option value="FRUTAS|6">Ciruela (x 2 unidades)</option><option value="FRUTAS|7">Kiwi (x 2 unidades)</option><option value="FRUTAS|8">Mango (x 150 g)</option><option value="FRUTAS|9">Piña / ananá (x 150 g)</option><option value="FRUTAS|10">Sandía (x 250 g)</option><option value="FRUTAS|11">Melón (x 200 g)</option><option value="FRUTAS|12">Uva (x 100 g)</option><option value="FRUTAS|13">Frutillas (x 150 g)</option><option value="FRUTAS|14">Arándanos (x 75 g)</option><option value="FRUTAS|15">Frambuesas (x 60 g)</option><option value="FRUTAS|16">Pomelo (½ unidad) (x 1 unidades)</option><option value="FRUTAS|17">Cerezas (x 140 g)</option><option value="FRUTAS|18">Papaya / mamón (x 140 g)</option></optgroup><optgroup label="ACEITES Y GRASAS"><option value="ACEITES Y GRASAS|0">Aceite de oliva extra virgen (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|1">Aceite de coco (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|2">Manteca (x 1 cditas)</option><option value="ACEITES Y GRASAS|3">Manteca de maní (sin azúcar) (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|4">Palta / aguacate (x 80 g)</option></optgroup><optgroup label="FRUTOS SECOS Y SEMILLAS"><option value="FRUTOS SECOS Y SEMILLAS|0">Maní tostado sin sal (x 30 g)</option><option value="FRUTOS SECOS Y SEMILLAS|1">Almendras (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|2">Nueces (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|3">Castañas de cajú / cashew (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|4">Semillas de chía (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|5">Semillas de lino molido (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|6">Semillas de girasol (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|7">Semillas de calabaza (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|8">Queso parmesano rallado (x 2 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|9">Crema de leche entera (x 30 ml)</option></optgroup><optgroup label="BEBIDAS"><option value="BEBIDAS|0">Leche entera (vaso) (x 1 vasos)</option><option value="BEBIDAS|1">Leche descremada (vaso) (x 1 vasos)</option><option value="BEBIDAS|2">Café con leche entera (x 1 tazas)</option><option value="BEBIDAS|3">Café con leche descremada (x 1 tazas)</option><option value="BEBIDAS|4">Café solo (sin azúcar) (x 1 tazas)</option><option value="BEBIDAS|5">Mate (sin azúcar) (x 1 cebadas)</option><option value="BEBIDAS|6">Agua (x 1 vasos)</option></optgroup><optgroup label="VERDURAS (bajo impacto calórico)"><option value="VERDURAS (bajo impacto calórico)|0">Lechuga / rúcula / espinaca (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|1">Tomate (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|2">Zanahoria (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|3">Pepino (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|4">Morrón / pimiento (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|5">Brócoli cocido (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|6">Zapallito / zucchini (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|7">Cebolla (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|8">Chauchas cocidas (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|9">Berenjena asada (x 100 g)</option></optgroup>
+        </select>
+        <div class="qty-wrap"><span class="qty-lbl">Cant.:</span><input type="number" class="qty-input" id="qty-merienda" placeholder="..." min="0.1" step="0.5"></div>
+        <button class="add-btn" onclick="addFood(&#39;merienda&#39;)">+ AGREGAR</button>
+      </div>
+      <div class="food-items" id="items-merienda"><div class="empty-msg">Sin alimentos — usá el selector para agregar.</div></div>
+    </div></div>
+    <div class="meal"><style>.meal[data-id="cena"]::before{background:#E01A1A}</style>
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#E01A1A"></div>
+    <div class="meal-header" id="mh-cena">
+      <div style="display:flex;align-items:center"><span class="meal-emoji">🌙</span><span class="meal-title" style="color:#E01A1A">Cena</span></div>
+      <div class="meal-macros"><span style="color:var(--blue)">0g P</span><span style="color:var(--amber)">0g C</span><span style="color:var(--green)">0g G</span><span style="color:var(--red);font-weight:700">0 kcal</span></div>
+    </div>
+    <div class="meal-body">
+      <div class="add-row">
+        <select class="food-select" id="sel-cena" onchange="(()=&gt;{const v=this.value;if(v){const[c,i]=v.split(&#39;|&#39;);document.getElementById(&#39;qty-cena&#39;).value=FOODS[c][parseInt(i)].base;}})()">
+          <option value="">— Seleccionar alimento —</option><optgroup label="CARNES Y AVES"><option value="CARNES Y AVES|0">Pechuga de pollo (cocida) (x 150 g)</option><option value="CARNES Y AVES|1">Muslo de pollo s/piel (cocido) (x 150 g)</option><option value="CARNES Y AVES|2">Pollo a la parrilla / plancha (x 150 g)</option><option value="CARNES Y AVES|3">Carne vacuna magra (nalga, cuadril) (x 150 g)</option><option value="CARNES Y AVES|4">Carne vacuna al horno (x 150 g)</option><option value="CARNES Y AVES|5">Asado (costilla) (x 150 g)</option><option value="CARNES Y AVES|6">Hígado vacuno (x 100 g)</option><option value="CARNES Y AVES|7">Carne de cerdo magra (lomo) (x 150 g)</option><option value="CARNES Y AVES|8">Carne de cerdo al horno (x 150 g)</option></optgroup><optgroup label="PESCADOS"><option value="PESCADOS|0">Atún al natural (lata escurrida) (x 170 g)</option><option value="PESCADOS|1">Merluza (filete cocido) (x 150 g)</option><option value="PESCADOS|2">Salmón (filete cocido) (x 150 g)</option><option value="PESCADOS|3">Sardinas en lata (escurridas) (x 100 g)</option></optgroup><optgroup label="HUEVOS"><option value="HUEVOS|0">Huevo entero (mediano) (x 1 unidades)</option><option value="HUEVOS|1">Huevo revuelto (2 unidades + aceite) (x 1 porciones)</option><option value="HUEVOS|2">Clara de huevo (x 1 unidades)</option></optgroup><optgroup label="LÁCTEOS"><option value="LÁCTEOS|0">Leche entera (x 250 ml)</option><option value="LÁCTEOS|1">Leche descremada (x 250 ml)</option><option value="LÁCTEOS|2">Yogur natural entero (x 200 g)</option><option value="LÁCTEOS|3">Yogur griego natural (x 200 g)</option><option value="LÁCTEOS|4">Queso colonia (x 40 g)</option><option value="LÁCTEOS|5">Queso gouda / edam (x 40 g)</option><option value="LÁCTEOS|6">Queso mozzarella (x 40 g)</option><option value="LÁCTEOS|7">Queso magro / descremado (x 40 g)</option><option value="LÁCTEOS|8">Ricota entera (x 80 g)</option><option value="LÁCTEOS|9">Crema de leche (x 30 ml)</option></optgroup><optgroup label="FIAMBRES"><option value="FIAMBRES|0">Jamón crudo (x 3 lonchas)</option><option value="FIAMBRES|1">Bondiola (x 3 lonchas)</option></optgroup><optgroup label="CEREALES"><option value="CEREALES|0">Arroz blanco cocido (x 150 g)</option><option value="CEREALES|1">Arroz integral cocido (x 150 g)</option><option value="CEREALES|2">Avena en copos (cruda) (x 45 g)</option><option value="CEREALES|3">Pan integral (x 2 rebanadas)</option><option value="CEREALES|4">Granola sin azúcar (x 45 g)</option></optgroup><optgroup label="TUBÉRCULOS"><option value="TUBÉRCULOS|0">Papa hervida (x 150 g)</option><option value="TUBÉRCULOS|1">Papa al horno (x 150 g)</option><option value="TUBÉRCULOS|2">Papa fría recalentada (x 150 g)</option><option value="TUBÉRCULOS|3">Boniato / batata cocido (x 150 g)</option></optgroup><optgroup label="LEGUMBRES"><option value="LEGUMBRES|0">Lentejas cocidas (x 180 g)</option><option value="LEGUMBRES|1">Garbanzos cocidos (x 180 g)</option><option value="LEGUMBRES|2">Porotos cocidos (x 180 g)</option><option value="LEGUMBRES|3">Tofu firme (x 150 g)</option></optgroup><optgroup label="FRUTAS"><option value="FRUTAS|0">Banana mediana (x 1 unidades)</option><option value="FRUTAS|1">Manzana mediana (x 1 unidades)</option><option value="FRUTAS|2">Naranja mediana (x 1 unidades)</option><option value="FRUTAS|3">Mandarina (x 2 unidades)</option><option value="FRUTAS|4">Pera mediana (x 1 unidades)</option><option value="FRUTAS|5">Durazno / melocotón (x 1 unidades)</option><option value="FRUTAS|6">Ciruela (x 2 unidades)</option><option value="FRUTAS|7">Kiwi (x 2 unidades)</option><option value="FRUTAS|8">Mango (x 150 g)</option><option value="FRUTAS|9">Piña / ananá (x 150 g)</option><option value="FRUTAS|10">Sandía (x 250 g)</option><option value="FRUTAS|11">Melón (x 200 g)</option><option value="FRUTAS|12">Uva (x 100 g)</option><option value="FRUTAS|13">Frutillas (x 150 g)</option><option value="FRUTAS|14">Arándanos (x 75 g)</option><option value="FRUTAS|15">Frambuesas (x 60 g)</option><option value="FRUTAS|16">Pomelo (½ unidad) (x 1 unidades)</option><option value="FRUTAS|17">Cerezas (x 140 g)</option><option value="FRUTAS|18">Papaya / mamón (x 140 g)</option></optgroup><optgroup label="ACEITES Y GRASAS"><option value="ACEITES Y GRASAS|0">Aceite de oliva extra virgen (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|1">Aceite de coco (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|2">Manteca (x 1 cditas)</option><option value="ACEITES Y GRASAS|3">Manteca de maní (sin azúcar) (x 1 cucharadas)</option><option value="ACEITES Y GRASAS|4">Palta / aguacate (x 80 g)</option></optgroup><optgroup label="FRUTOS SECOS Y SEMILLAS"><option value="FRUTOS SECOS Y SEMILLAS|0">Maní tostado sin sal (x 30 g)</option><option value="FRUTOS SECOS Y SEMILLAS|1">Almendras (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|2">Nueces (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|3">Castañas de cajú / cashew (x 25 g)</option><option value="FRUTOS SECOS Y SEMILLAS|4">Semillas de chía (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|5">Semillas de lino molido (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|6">Semillas de girasol (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|7">Semillas de calabaza (x 1 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|8">Queso parmesano rallado (x 2 cucharadas)</option><option value="FRUTOS SECOS Y SEMILLAS|9">Crema de leche entera (x 30 ml)</option></optgroup><optgroup label="BEBIDAS"><option value="BEBIDAS|0">Leche entera (vaso) (x 1 vasos)</option><option value="BEBIDAS|1">Leche descremada (vaso) (x 1 vasos)</option><option value="BEBIDAS|2">Café con leche entera (x 1 tazas)</option><option value="BEBIDAS|3">Café con leche descremada (x 1 tazas)</option><option value="BEBIDAS|4">Café solo (sin azúcar) (x 1 tazas)</option><option value="BEBIDAS|5">Mate (sin azúcar) (x 1 cebadas)</option><option value="BEBIDAS|6">Agua (x 1 vasos)</option></optgroup><optgroup label="VERDURAS (bajo impacto calórico)"><option value="VERDURAS (bajo impacto calórico)|0">Lechuga / rúcula / espinaca (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|1">Tomate (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|2">Zanahoria (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|3">Pepino (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|4">Morrón / pimiento (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|5">Brócoli cocido (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|6">Zapallito / zucchini (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|7">Cebolla (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|8">Chauchas cocidas (x 100 g)</option><option value="VERDURAS (bajo impacto calórico)|9">Berenjena asada (x 100 g)</option></optgroup>
+        </select>
+        <div class="qty-wrap"><span class="qty-lbl">Cant.:</span><input type="number" class="qty-input" id="qty-cena" placeholder="..." min="0.1" step="0.5"></div>
+        <button class="add-btn" onclick="addFood(&#39;cena&#39;)">+ AGREGAR</button>
+      </div>
+      <div class="food-items" id="items-cena"><div class="empty-msg">Sin alimentos — usá el selector para agregar.</div></div>
+    </div></div></div>
+<div class="summary-col">
+  <div class="summary">
+    <div class="sum-title">RESUMEN DEL DÍA</div>
+    <div class="sum-cards" id="sum-cards"><div class="sum-card" style="border-color:var(--red)"><div class="sum-card-lbl">KCAL</div><div class="sum-card-val" style="color:var(--red)">0kcal</div><div class="sum-card-sub">0% del objetivo</div></div><div class="sum-card" style="border-color:var(--blue)"><div class="sum-card-lbl">PROTEÍNA</div><div class="sum-card-val" style="color:var(--blue)">0g</div><div class="sum-card-sub">0% del objetivo</div></div><div class="sum-card" style="border-color:var(--amber)"><div class="sum-card-lbl">CARBOS</div><div class="sum-card-val" style="color:var(--amber)">0g</div><div class="sum-card-sub">0% del objetivo</div></div><div class="sum-card" style="border-color:var(--green)"><div class="sum-card-lbl">GRASA</div><div class="sum-card-val" style="color:var(--green)">0g</div><div class="sum-card-sub">0% del objetivo</div></div></div>
+    <div class="sum-meals" id="sum-meals"><div class="sum-meal"><span class="sum-meal-name">☀️ Desayuno</span><span class="sum-meal-kcal">0 kcal</span></div><div class="sum-meal"><span class="sum-meal-name">🍽️ Almuerzo</span><span class="sum-meal-kcal">0 kcal</span></div><div class="sum-meal"><span class="sum-meal-name">☕ Merienda</span><span class="sum-meal-kcal">0 kcal</span></div><div class="sum-meal"><span class="sum-meal-name">🌙 Cena</span><span class="sum-meal-kcal">0 kcal</span></div></div>
+    <button class="export-btn" onclick="showExport()">EXPORTAR PLAN →</button>
+    <button class="clear-btn" onclick="clearAll()">Limpiar todo</button>
+  </div>
+</div>
+</div>
+</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Plan nutricional del día</span><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="modal-body" id="modal-body"></div>
+    <button class="copy-btn" onclick="copyPlan()">COPIAR PLAN</button>
+  </div>
+</div>
+<script>
+const DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+
+// BASE DE DATOS ALINEADA CON LA TABLA DE ALIMENTOS COMBUSTIBLE
+const FOODS = {
+  'CARNES Y AVES': [
+    {n:'Pechuga de pollo (cocida)',u:'g',base:150,p:45,c:0,f:4,k:220},
+    {n:'Muslo de pollo s/piel (cocido)',u:'g',base:150,p:35,c:0,f:9,k:225},
+    {n:'Pollo a la parrilla / plancha',u:'g',base:150,p:38,c:0,f:7,k:230},
+    {n:'Carne vacuna magra (nalga, cuadril)',u:'g',base:150,p:35,c:0,f:8,k:215},
+    {n:'Carne vacuna al horno',u:'g',base:150,p:33,c:0,f:10,k:225},
+    {n:'Asado (costilla)',u:'g',base:150,p:28,c:0,f:20,k:295},
+    {n:'Hígado vacuno',u:'g',base:100,p:26,c:4,f:4,k:160},
+    {n:'Carne de cerdo magra (lomo)',u:'g',base:150,p:35,c:0,f:7,k:210},
+    {n:'Carne de cerdo al horno',u:'g',base:150,p:32,c:0,f:10,k:225},
+  ],
+  'PESCADOS': [
+    {n:'Atún al natural (lata escurrida)',u:'g',base:170,p:38,c:0,f:2,k:170},
+    {n:'Merluza (filete cocido)',u:'g',base:150,p:28,c:0,f:2,k:135},
+    {n:'Salmón (filete cocido)',u:'g',base:150,p:30,c:0,f:14,k:250},
+    {n:'Sardinas en lata (escurridas)',u:'g',base:100,p:21,c:0,f:10,k:175},
+  ],
+  'HUEVOS': [
+    {n:'Huevo entero (mediano)',u:'unidades',base:1,p:7,c:0,f:5,k:75},
+    {n:'Huevo revuelto (2 unidades + aceite)',u:'porciones',base:1,p:14,c:1,f:12,k:175},
+    {n:'Clara de huevo',u:'unidades',base:1,p:4,c:0,f:0,k:17},
+  ],
+  'LÁCTEOS': [
+    {n:'Leche entera',u:'ml',base:250,p:8,c:12,f:8,k:150},
+    {n:'Leche descremada',u:'ml',base:250,p:9,c:12,f:0,k:85},
+    {n:'Yogur natural entero',u:'g',base:200,p:6,c:10,f:4,k:100},
+    {n:'Yogur griego natural',u:'g',base:200,p:16,c:8,f:5,k:145},
+    {n:'Queso colonia',u:'g',base:40,p:8,c:0,f:9,k:115},
+    {n:'Queso gouda / edam',u:'g',base:40,p:10,c:0,f:9,k:120},
+    {n:'Queso mozzarella',u:'g',base:40,p:9,c:1,f:8,k:110},
+    {n:'Queso magro / descremado',u:'g',base:40,p:9,c:0,f:3,k:65},
+    {n:'Ricota entera',u:'g',base:80,p:8,c:3,f:8,k:115},
+    {n:'Crema de leche',u:'ml',base:30,p:1,c:1,f:10,k:100},
+  ],
+  'FIAMBRES': [
+    {n:'Jamón crudo',u:'lonchas',base:3,p:11,c:0,f:6,k:100},
+    {n:'Bondiola',u:'lonchas',base:3,p:9,c:0,f:12,k:145},
+  ],
+  'CEREALES': [
+    {n:'Arroz blanco cocido',u:'g',base:150,p:3,c:45,f:0,k:195},
+    {n:'Arroz integral cocido',u:'g',base:150,p:4,c:40,f:1,k:185},
+    {n:'Avena en copos (cruda)',u:'g',base:45,p:6,c:28,f:4,k:170},
+    {n:'Pan integral',u:'rebanadas',base:2,p:6,c:26,f:2,k:145},
+    {n:'Granola sin azúcar',u:'g',base:45,p:5,c:25,f:7,k:180},
+  ],
+  'TUBÉRCULOS': [
+    {n:'Papa hervida',u:'g',base:150,p:3,c:26,f:0,k:115},
+    {n:'Papa al horno',u:'g',base:150,p:3,c:28,f:0,k:120},
+    {n:'Papa fría recalentada',u:'g',base:150,p:3,c:22,f:0,k:100},
+    {n:'Boniato / batata cocido',u:'g',base:150,p:2,c:30,f:0,k:130},
+  ],
+  'LEGUMBRES': [
+    {n:'Lentejas cocidas',u:'g',base:180,p:14,c:30,f:1,k:185},
+    {n:'Garbanzos cocidos',u:'g',base:180,p:12,c:32,f:3,k:200},
+    {n:'Porotos cocidos',u:'g',base:180,p:13,c:30,f:1,k:185},
+    {n:'Tofu firme',u:'g',base:150,p:14,c:3,f:9,k:145},
+  ],
+  'FRUTAS': [
+    {n:'Banana mediana',u:'unidades',base:1,p:1,c:27,f:0,k:110},
+    {n:'Manzana mediana',u:'unidades',base:1,p:0,c:20,f:0,k:80},
+    {n:'Naranja mediana',u:'unidades',base:1,p:1,c:18,f:0,k:72},
+    {n:'Mandarina',u:'unidades',base:2,p:1,c:19,f:0,k:78},
+    {n:'Pera mediana',u:'unidades',base:1,p:0,c:22,f:0,k:88},
+    {n:'Durazno / melocotón',u:'unidades',base:1,p:1,c:14,f:0,k:58},
+    {n:'Ciruela',u:'unidades',base:2,p:1,c:16,f:0,k:70},
+    {n:'Kiwi',u:'unidades',base:2,p:2,c:18,f:1,k:90},
+    {n:'Mango',u:'g',base:150,p:1,c:25,f:0,k:100},
+    {n:'Piña / ananá',u:'g',base:150,p:1,c:20,f:0,k:82},
+    {n:'Sandía',u:'g',base:250,p:1,c:18,f:0,k:75},
+    {n:'Melón',u:'g',base:200,p:1,c:14,f:0,k:60},
+    {n:'Uva',u:'g',base:100,p:1,c:18,f:0,k:72},
+    {n:'Frutillas',u:'g',base:150,p:1,c:11,f:0,k:48},
+    {n:'Arándanos',u:'g',base:75,p:1,c:11,f:0,k:46},
+    {n:'Frambuesas',u:'g',base:60,p:1,c:7,f:0,k:32},
+    {n:'Pomelo (½ unidad)',u:'unidades',base:1,p:1,c:11,f:0,k:48},
+    {n:'Cerezas',u:'g',base:140,p:1,c:22,f:0,k:88},
+    {n:'Papaya / mamón',u:'g',base:140,p:1,c:15,f:0,k:62},
+  ],
+  'ACEITES Y GRASAS': [
+    {n:'Aceite de oliva extra virgen',u:'cucharadas',base:1,p:0,c:0,f:14,k:125},
+    {n:'Aceite de coco',u:'cucharadas',base:1,p:0,c:0,f:14,k:120},
+    {n:'Manteca',u:'cditas',base:1,p:0,c:0,f:8,k:72},
+    {n:'Manteca de maní (sin azúcar)',u:'cucharadas',base:1,p:5,c:4,f:12,k:145},
+    {n:'Palta / aguacate',u:'g',base:80,p:1,c:5,f:13,k:140},
+  ],
+  'FRUTOS SECOS Y SEMILLAS': [
+    {n:'Maní tostado sin sal',u:'g',base:30,p:8,c:5,f:14,k:175},
+    {n:'Almendras',u:'g',base:25,p:6,c:5,f:14,k:160},
+    {n:'Nueces',u:'g',base:25,p:4,c:3,f:16,k:165},
+    {n:'Castañas de cajú / cashew',u:'g',base:25,p:5,c:9,f:11,k:155},
+    {n:'Semillas de chía',u:'cucharadas',base:1,p:3,c:5,f:5,k:75},
+    {n:'Semillas de lino molido',u:'cucharadas',base:1,p:2,c:3,f:4,k:55},
+    {n:'Semillas de girasol',u:'cucharadas',base:1,p:3,c:2,f:7,k:80},
+    {n:'Semillas de calabaza',u:'cucharadas',base:1,p:4,c:2,f:6,k:78},
+    {n:'Queso parmesano rallado',u:'cucharadas',base:2,p:7,c:1,f:6,k:90},
+    {n:'Crema de leche entera',u:'ml',base:30,p:1,c:1,f:10,k:100},
+  ],
+  'BEBIDAS': [
+    {n:'Leche entera (vaso)',u:'vasos',base:1,p:8,c:12,f:8,k:150},
+    {n:'Leche descremada (vaso)',u:'vasos',base:1,p:9,c:12,f:0,k:85},
+    {n:'Café con leche entera',u:'tazas',base:1,p:8,c:12,f:8,k:140},
+    {n:'Café con leche descremada',u:'tazas',base:1,p:9,c:12,f:0,k:80},
+    {n:'Café solo (sin azúcar)',u:'tazas',base:1,p:1,c:0,f:0,k:5},
+    {n:'Mate (sin azúcar)',u:'cebadas',base:1,p:0,c:0,f:0,k:2},
+    {n:'Agua',u:'vasos',base:1,p:0,c:0,f:0,k:0},
+  ],
+  'VERDURAS (bajo impacto calórico)': [
+    {n:'Lechuga / rúcula / espinaca',u:'g',base:100,p:2,c:2,f:0,k:17},
+    {n:'Tomate',u:'g',base:100,p:1,c:4,f:0,k:20},
+    {n:'Zanahoria',u:'g',base:100,p:1,c:10,f:0,k:41},
+    {n:'Pepino',u:'g',base:100,p:1,c:4,f:0,k:16},
+    {n:'Morrón / pimiento',u:'g',base:100,p:1,c:6,f:0,k:27},
+    {n:'Brócoli cocido',u:'g',base:100,p:3,c:6,f:0,k:35},
+    {n:'Zapallito / zucchini',u:'g',base:100,p:2,c:3,f:0,k:17},
+    {n:'Cebolla',u:'g',base:100,p:1,c:9,f:0,k:40},
+    {n:'Chauchas cocidas',u:'g',base:100,p:2,c:7,f:0,k:35},
+    {n:'Berenjena asada',u:'g',base:100,p:1,c:6,f:0,k:25},
+  ],
+};
+
+const MEALS=[
+  {id:'desayuno',label:'Desayuno',emoji:'☀️',color:'#F9A825'},
+  {id:'almuerzo',label:'Almuerzo',emoji:'🍽️',color:'#1E88E5'},
+  {id:'merienda',label:'Merienda',emoji:'☕',color:'#7B1FA2'},
+  {id:'cena',label:'Cena',emoji:'🌙',color:'#E01A1A'},
+];
+
+
+// ── CUSTOM FOODS ─────────────────────────────
+const CUSTOM_KEY = 'combustible_custom_foods';
+
+function loadCustomFoods() {
+  try {
+    const saved = localStorage.getItem(CUSTOM_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch(e) { return []; }
+}
+
+function saveCustomFoods(foods) {
+  try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(foods)); } catch(e) {}
+}
+
+function saveCustomFood() {
+  const name = document.getElementById('cf-name').value.trim();
+  const unit = document.getElementById('cf-unit').value.trim() || 'g';
+  const base = parseFloat(document.getElementById('cf-base').value) || 100;
+  const p = parseFloat(document.getElementById('cf-p').value) || 0;
+  const c = parseFloat(document.getElementById('cf-c').value) || 0;
+  const f = parseFloat(document.getElementById('cf-f').value) || 0;
+  const k = parseFloat(document.getElementById('cf-k').value) || Math.round(p*4 + c*4 + f*9);
+  if (!name) { alert('Ingresá el nombre del alimento.'); return; }
+  const foods = loadCustomFoods();
+  foods.push({n:name, u:unit, base, p, c, f, k, id:Date.now()});
+  saveCustomFoods(foods);
+  // Clear form
+  ['cf-name','cf-unit','cf-base','cf-p','cf-c','cf-f','cf-k'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  renderCustomList();
+  rebuildAllSelects();
+}
+
+function deleteCustomFood(id) {
+  const foods = loadCustomFoods().filter(f => f.id !== id);
+  saveCustomFoods(foods);
+  renderCustomList();
+  rebuildAllSelects();
+}
+
+function renderCustomList() {
+  const foods = loadCustomFoods();
+  const list = document.getElementById('custom-list');
+  if (foods.length === 0) {
+    list.innerHTML = '<div class="custom-empty">No hay alimentos personalizados todavía.</div>';
+    return;
+  }
+  list.innerHTML = foods.map(food => `
+    <div class="custom-item">
+      <div>
+        <span class="ci-name">${food.n}</span>
+        <span class="ci-macros"> · por ${food.base}${food.u}: P:${food.p}g C:${food.c}g G:${food.f}g · ${food.k}kcal</span>
+      </div>
+      <button class="ci-del" onclick="deleteCustomFood(${food.id})" title="Eliminar">×</button>
+    </div>`).join('');
+}
+
+function toggleCustom() {
+  const btn = document.getElementById('custom-toggle');
+  const body = document.getElementById('custom-body');
+  btn.classList.toggle('open');
+  body.classList.toggle('vis');
+}
+
+function getCustomFoodsForSelect() {
+  const foods = loadCustomFoods();
+  if (foods.length === 0) return '';
+  return '<optgroup label="MIS ALIMENTOS ★">' +
+    foods.map((food, i) => `<option value="CUSTOM|${food.id}">★ ${food.n} (x ${food.base} ${food.u})</option>`).join('') +
+    '</optgroup>';
+}
+
+function findCustomFood(id) {
+  return loadCustomFoods().find(f => f.id === id);
+}
+
+function rebuildAllSelects() {
+  MEALS.forEach(meal => {
+    const sel = document.getElementById('sel-' + meal.id);
+    if (!sel) return;
+    const currentVal = sel.value;
+    sel.innerHTML = buildSelect(meal.id);
+    // Try to restore selection
+    try { sel.value = currentVal; } catch(e) {}
+  });
+}
+
+let state={};
+MEALS.forEach(m=>state[m.id]=[]);
+
+function r(v){return Math.round(v*10)/10;}
+
+function calcItem(food,qty){
+  const f=qty/food.base;
+  return{name:food.n,unit:food.u,qty,p:r(food.p*f),c:r(food.c*f),f:r(food.f*f),k:r(food.k*f)};
+}
+
+function totals(){
+  let p=0,c=0,f=0,k=0;
+  const byMeal={};
+  MEALS.forEach(m=>{
+    let mp=0,mc=0,mf=0,mk=0;
+    state[m.id].forEach(i=>{mp+=i.p;mc+=i.c;mf+=i.f;mk+=i.k;});
+    byMeal[m.id]={p:r(mp),c:r(mc),f:r(mf),k:r(mk)};
+    p+=mp;c+=mc;f+=mf;k+=mk;
+  });
+  return{p:r(p),c:r(c),f:r(f),k:r(k),byMeal};
+}
+
+function getTargets(){
+  return{k:parseFloat(document.getElementById('tKcal').value)||1800,p:parseFloat(document.getElementById('tProt').value)||130,c:parseFloat(document.getElementById('tCarbs').value)||180,f:parseFloat(document.getElementById('tFat').value)||55};
+}
+
+function pctColor(pct){
+  if(pct>105)return'#FF5252';
+  if(pct>85)return'#43A047';
+  if(pct>55)return'#F9A825';
+  return'#888';
+}
+
+function updateProgress(){
+  const t=getTargets(),tot=totals();
+  const items=[{lbl:'KCAL',cur:tot.k,tgt:t.k,col:'var(--red)'},{lbl:'PROTEÍNA',cur:tot.p,tgt:t.p,col:'var(--blue)'},{lbl:'CARBOS',cur:tot.c,tgt:t.c,col:'var(--amber)'},{lbl:'GRASA',cur:tot.f,tgt:t.f,col:'var(--green)'}];
+  document.getElementById('prog-row').innerHTML=items.map(item=>{
+    const pct=Math.min(Math.round(item.cur/item.tgt*100),110);
+    const over=item.cur>item.tgt;
+    const sc=over?'#FF5252':pctColor(pct);
+    const remain=r(item.tgt-item.cur);
+    return`<div class="prog-item"><div class="prog-top"><span class="prog-lbl">${item.lbl}</span><span class="prog-val" style="color:${sc}">${item.cur}<span style="color:var(--mid);font-size:11px;font-weight:400"> / ${item.tgt}</span></span></div><div class="prog-bar"><div class="prog-fill" style="width:${Math.min(pct,100)}%;background:${sc}"></div></div><div class="prog-remain">${over?'<span style="color:#FF5252">+'+r(item.cur-item.tgt)+' sobre el objetivo</span>':'Faltan '+Math.max(0,remain)+(item.lbl==='KCAL'?' kcal':' g')}</div></div>`;
+  }).join('');
+  updateSummary(tot);
+}
+
+function updateSummary(tot){
+  const t=getTargets();
+  document.getElementById('sum-cards').innerHTML=[
+    {l:'KCAL',v:tot.k+'kcal',tgt:t.k,col:'var(--red)'},
+    {l:'PROTEÍNA',v:tot.p+'g',tgt:t.p,col:'var(--blue)'},
+    {l:'CARBOS',v:tot.c+'g',tgt:t.c,col:'var(--amber)'},
+    {l:'GRASA',v:tot.f+'g',tgt:t.f,col:'var(--green)'},
+  ].map(m=>{const pct=Math.round(m.v.replace(/\D/g,'')/m.tgt*100);const over=parseInt(m.v)>m.tgt;return`<div class="sum-card" style="border-color:${m.col}"><div class="sum-card-lbl">${m.l}</div><div class="sum-card-val" style="color:${over?'#FF5252':m.col}">${m.v}</div><div class="sum-card-sub">${pct}% del objetivo</div></div>`;}).join('');
+  document.getElementById('sum-meals').innerHTML=MEALS.map(m=>`<div class="sum-meal"><span class="sum-meal-name">${m.emoji} ${m.label}</span><span class="sum-meal-kcal">${tot.byMeal[m.id].k} kcal</span></div>`).join('');
+}
+
+function buildSelect(mealId){
+  let html='<option value="">— Seleccionar alimento —</option>';
+  html += getCustomFoodsForSelect();
+  Object.entries(FOODS).forEach(([cat,items])=>{
+    html+=`<optgroup label="${cat}">`;
+    items.forEach((food,i)=>{html+=`<option value="${cat}|${i}">${food.n} (x ${food.base} ${food.u})</option>`;});
+    html+='</optgroup>';
+  });
+  return html;
+}
+
+function addFood(mealId){
+  const sel=document.getElementById(`sel-${mealId}`);
+  const qty=parseFloat(document.getElementById(`qty-${mealId}`).value);
+  if(!sel.value||!qty||qty<=0)return;
+  const parts=sel.value.split('|');
+  let food;
+  if(parts[0]==='CUSTOM'){
+    food=findCustomFood(parseInt(parts[1]));
+    if(!food){alert('Alimento no encontrado.');return;}
+  } else {
+    const[cat,idx]=sel.value.split('|');
+    food=FOODS[cat][parseInt(idx)];
+  }
+  state[mealId].push(calcItem(food,qty));
+  sel.value='';
+  document.getElementById(`qty-${mealId}`).value='';
+  renderMeal(mealId);
+  updateProgress();
+}
+
+function removeFood(mealId,idx){
+  state[mealId].splice(idx,1);
+  renderMeal(mealId);
+  updateProgress();
+}
+
+function renderMeal(mealId){
+  const meal=MEALS.find(m=>m.id===mealId);
+  const items=state[mealId];
+  const mTot={p:r(items.reduce((s,i)=>s+i.p,0)),c:r(items.reduce((s,i)=>s+i.c,0)),f:r(items.reduce((s,i)=>s+i.f,0)),k:r(items.reduce((s,i)=>s+i.k,0))};
+  document.getElementById(`mh-${mealId}`).querySelector('.meal-macros').innerHTML=`<span style="color:var(--blue)">${mTot.p}g P</span><span style="color:var(--amber)">${mTot.c}g C</span><span style="color:var(--green)">${mTot.f}g G</span><span style="color:var(--red);font-weight:700">${mTot.k} kcal</span>`;
+  const list=document.getElementById(`items-${mealId}`);
+  list.innerHTML=items.length===0?'<div class="empty-msg">Sin alimentos — usá el selector para agregar.</div>':items.map((item,i)=>`<div class="food-item"><div style="flex:1"><div class="fi-name">${item.name}</div><div class="fi-qty">${item.qty} ${item.unit}</div></div><div class="fi-macros"><span class="fi-p">${item.p}g P</span><span class="fi-c">${item.c}g C</span><span class="fi-g">${item.f}g G</span><span class="fi-kcal">${item.k} kcal</span></div><button class="fi-del" onclick="removeFood('${mealId}',${i})">×</button></div>`).join('');
+}
+
+function buildMeals(){
+  document.getElementById('meals-col').innerHTML=MEALS.map(meal=>`
+    <div class="meal"><style>.meal[data-id="${meal.id}"]::before{background:${meal.color}}</style>
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${meal.color}"></div>
+    <div class="meal-header" id="mh-${meal.id}">
+      <div style="display:flex;align-items:center"><span class="meal-emoji">${meal.emoji}</span><span class="meal-title" style="color:${meal.color}">${meal.label}</span></div>
+      <div class="meal-macros"><span style="color:var(--blue)">0g P</span><span style="color:var(--amber)">0g C</span><span style="color:var(--green)">0g G</span><span style="color:var(--red);font-weight:700">0 kcal</span></div>
+    </div>
+    <div class="meal-body">
+      <div class="add-row">
+        <select class="food-select" id="sel-${meal.id}" onchange="(()=>{const v=this.value;if(v){const[c,i]=v.split('|');document.getElementById('qty-${meal.id}').value=FOODS[c][parseInt(i)].base;}})()">
+          ${buildSelect(meal.id)}
+        </select>
+        <div class="qty-wrap"><span class="qty-lbl">Cant.:</span><input type="number" class="qty-input" id="qty-${meal.id}" placeholder="..." min="0.1" step="0.5"></div>
+        <button class="add-btn" onclick="addFood('${meal.id}')">+ AGREGAR</button>
+      </div>
+      <div class="food-items" id="items-${meal.id}"><div class="empty-msg">Sin alimentos — usá el selector para agregar.</div></div>
+    </div></div>`).join('');
+  // Fix onchange scope
+  MEALS.forEach(meal=>{
+    document.getElementById(`sel-${meal.id}`).addEventListener('change',function(){
+      if(this.value){
+        const parts=this.value.split('|');
+        if(parts[0]==='CUSTOM'){
+          const cf=findCustomFood(parseInt(parts[1]));
+          if(cf) document.getElementById(`qty-${meal.id}`).value=cf.base;
+        } else {
+          const[c,i]=this.value.split('|');
+          document.getElementById(`qty-${meal.id}`).value=FOODS[c][parseInt(i)].base;
+        }
+      }
+    });
+  });
+}
+
+function showExport(){
+  const t=getTargets(),tot=totals();
+  let txt=`PLAN NUTRICIONAL DEL DÍA\n${'═'.repeat(40)}\n\nOBJETIVO: ${t.k} kcal | P:${t.p}g | C:${t.c}g | G:${t.f}g\n\n`;
+  MEALS.forEach(m=>{
+    const items=state[m.id];
+    txt+=`${m.emoji} ${m.label.toUpperCase()} — ${r(items.reduce((s,i)=>s+i.k,0))} kcal\n${'─'.repeat(30)}\n`;
+    if(items.length===0)txt+='  (sin alimentos)\n';
+    else items.forEach(i=>{txt+=`  • ${i.name} (${i.qty} ${i.unit})\n    ${i.p}g P · ${i.c}g C · ${i.f}g G · ${i.k} kcal\n`;});
+    txt+='\n';
+  });
+  txt+=`${'═'.repeat(40)}\nTOTAL\n${'─'.repeat(30)}\nKCAL:     ${tot.k} / ${t.k} (${Math.round(tot.k/t.k*100)}%)\nPROTEÍNA: ${tot.p}g / ${t.p}g (${Math.round(tot.p/t.p*100)}%)\nCARBOS:   ${tot.c}g / ${t.c}g (${Math.round(tot.c/t.c*100)}%)\nGRASA:    ${tot.f}g / ${t.f}g (${Math.round(tot.f/t.f*100)}%)\n\n— COMBUSTIBLE · Instituto BE —`;
+  document.getElementById('modal-body').textContent=txt;
+  document.getElementById('modal').classList.add('vis');
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('vis');}
+function copyPlan(){
+  navigator.clipboard.writeText(document.getElementById('modal-body').textContent).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent='¡COPIADO!';
+    setTimeout(()=>btn.textContent='COPIAR PLAN',2000);
+  });
+}
+function clearAll(){
+  if(!confirm('¿Limpiar todo el plan?'))return;
+  MEALS.forEach(m=>{state[m.id]=[];renderMeal(m.id);});
+  updateProgress();
+}
+
+buildMeals();
+renderCustomList();
+updateProgress();
+</script>
+
+
+</body></html>

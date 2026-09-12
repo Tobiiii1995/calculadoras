@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)file:///C:/Users/Usuario/Downloads/calculadora-macros-combustible%20(2).html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Macros · COMBUSTIBLE · Instituto BE</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0A0A;color:#F5F5F0;font-family:Arial,sans-serif;min-height:100vh;padding-bottom:60px}
+:root{--red:#E01A1A;--dark:#141414;--card:#1A1A1A;--gray:#262626;--mid:#888;--light:#CCC;--white:#F5F5F0;--blue:#1E88E5;--amber:#F9A825;--green:#43A047;--purple:#6A1B9A}
+.header{background:var(--dark);border-bottom:4px solid var(--red);padding:22px 28px 18px}
+.header-inner{max-width:900px;margin:0 auto}
+.tag{font-family:'Courier New',monospace;font-size:11px;color:var(--red);letter-spacing:3.5px;font-weight:700;text-transform:uppercase;margin-bottom:7px}
+.title{font-size:30px;font-weight:900;color:var(--white);line-height:1.1}
+.title span{color:var(--red)}
+.subtitle{font-size:13px;color:var(--mid);margin-top:6px;font-style:italic}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+.sections{display:flex;flex-direction:column;gap:3px;margin-top:20px}
+.section{background:var(--card);padding:24px 22px 20px;position:relative}
+.section::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
+.sec-label{font-family:'Courier New',monospace;font-size:10px;color:var(--red);letter-spacing:3px;font-weight:700;display:block;margin-bottom:16px}
+.row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:90px}
+.field label{font-size:11px;color:var(--mid);font-family:'Courier New',monospace;text-transform:uppercase;letter-spacing:1.5px}
+input[type=number]{background:var(--gray);border:1.5px solid #383838;color:var(--white);font-size:17px;font-weight:700;padding:11px 13px;outline:none;width:100%;transition:border .15s;-moz-appearance:textfield;border-radius:0}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input[type=number]:focus{border-color:var(--red)}
+input[type=number]::placeholder{color:#555;font-weight:400;font-size:15px}
+.seg{display:flex;border:1.5px solid #383838}
+.seg-btn{flex:1;padding:11px;background:var(--gray);color:var(--light);border:none;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+.seg-btn:first-child{border-right:1.5px solid #383838}
+.seg-btn.on{background:var(--red);color:#fff;font-weight:700}
+.goal-row{display:flex;gap:0;border:1.5px solid #383838;margin-top:6px}
+.goal-btn{flex:1;padding:12px 14px;background:var(--gray);border:none;color:var(--light);cursor:pointer;text-align:left;border-right:1.5px solid #383838;transition:all .12s}
+.goal-btn:last-child{border-right:none}
+.goal-btn.on{background:var(--red)}
+.goal-btn.on .gn,.goal-btn.on .gd{color:#fff}
+.gn{display:block;font-size:13px;font-weight:700;color:var(--light);margin-bottom:3px}
+.gd{font-size:11px;color:var(--mid)}
+/* NEAT */
+.neat-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:6px}
+.neat-btn{padding:13px 14px;background:var(--gray);border:1.5px solid #383838;color:var(--light);cursor:pointer;text-align:left;transition:all .12s;display:flex;align-items:flex-start;gap:10px}
+.neat-btn:hover{border-color:#666}
+.neat-btn.on{border-color:var(--purple);background:#6A1B9A22}
+.neat-btn.on .nn{color:#CE93D8}
+.neat-btn.on .nd{color:var(--light)}
+.neat-btn.on .nb{color:#CE93D8;border-color:#CE93D8}
+.neat-emoji{font-size:22px;flex-shrink:0;margin-top:1px}
+.neat-text{flex:1}
+.nn{display:block;font-size:13px;font-weight:700;color:var(--light);margin-bottom:3px}
+.nd{font-size:11px;color:var(--mid);line-height:1.4}
+.nb{display:inline-block;margin-top:5px;font-size:11px;font-family:'Courier New',monospace;color:var(--mid);border:1px solid #444;padding:2px 8px}
+/* WEEK */
+.week-intro{font-size:13px;color:var(--light);line-height:1.55;margin-bottom:14px}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-bottom:10px}
+.day{background:var(--gray);border:2px solid #383838;padding:10px 4px 8px;cursor:pointer;text-align:center;transition:all .15s;user-select:none}
+.day:hover{border-color:#666}
+.day.sel{outline:2.5px solid var(--white);outline-offset:2px}
+.dn{font-size:11px;color:var(--light);font-family:'Courier New',monospace;margin-bottom:5px;font-weight:700}
+.de{font-size:19px;display:block;margin:2px 0}
+.ds{font-size:10px;font-family:'Courier New',monospace;font-weight:700;letter-spacing:1px;margin-top:3px}
+.type-panel{background:var(--gray);padding:14px;border-top:2px solid var(--red);display:none;margin-bottom:10px}
+.type-panel.vis{display:block}
+.tp-label{font-size:11px;color:var(--mid);font-family:'Courier New',monospace;margin-bottom:10px;letter-spacing:1px}
+.type-btns{display:flex;gap:7px;flex-wrap:wrap}
+.tbtn{padding:8px 13px;cursor:pointer;font-size:12px;font-weight:500;border:1.5px solid #555;background:var(--card);color:var(--light);display:flex;align-items:center;gap:7px;transition:all .12s}
+.tbtn:hover{border-color:#999}
+.tbtn.on{font-weight:700;color:#fff}
+.wsum{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;min-height:28px}
+.wbadge{padding:5px 11px;display:flex;gap:7px;align-items:center;font-size:12px;font-family:'Courier New',monospace}
+.calc-btn{background:var(--red);color:#fff;border:none;padding:15px;font-size:15px;font-weight:700;cursor:pointer;width:100%;margin-top:18px;letter-spacing:2.5px;font-family:'Courier New',monospace;transition:all .2s}
+.calc-btn:hover{background:#c01515}
+/* RESULTS */
+.results{background:var(--dark);padding:24px 22px;display:none;position:relative}
+.results::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
+.results.vis{display:block}
+.meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--mid);margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #2A2A2A}
+.meta strong{color:var(--white)}
+.meta .gt{color:var(--red);font-weight:700}
+.meta .neat-tag{color:#CE93D8;font-weight:700}
+.macro-cards{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.mc{background:var(--card);padding:16px;flex:1;min-width:110px;border-top:3px solid}
+.mc-lbl{font-size:10px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.mc-val{font-size:38px;font-weight:900;line-height:1;margin-bottom:3px}
+.mc-sub{font-size:12px;color:var(--light)}
+.dist-box{background:var(--card);padding:16px;margin-bottom:16px}
+.dlabel{font-size:10px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:2px;margin-bottom:10px}
+.dist-bar{display:flex;height:22px;gap:2px;overflow:hidden}
+.dist-bar div{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;transition:width .5s}
+.dist-leg{display:flex;gap:18px;margin-top:8px;flex-wrap:wrap}
+.dist-leg span{font-size:12px}
+.neat-impact{background:#6A1B9A18;border:1px solid #6A1B9A55;border-left:3px solid var(--purple);padding:12px 14px;margin-bottom:16px;display:none}
+.neat-impact.vis{display:block}
+.ni-label{font-size:10px;font-family:'Courier New',monospace;color:#CE93D8;letter-spacing:2px;margin-bottom:6px}
+.ni-row{display:flex;gap:20px;flex-wrap:wrap}
+.ni-item{text-align:center}
+.ni-item .v{font-size:20px;font-weight:900;color:#CE93D8}
+.ni-item .u{font-size:10px;font-family:'Courier New',monospace;color:var(--mid)}
+.day-bd{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.dbc{padding:14px 16px;border-left:3px solid}
+.dbc-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.dbc-info{display:flex;align-items:center;gap:10px}
+.dbc-name{font-weight:700;font-size:14px;color:var(--white)}
+.dbc-days{font-size:11px;font-family:'Courier New',monospace;color:var(--mid);margin-top:2px}
+.dbc-nums{display:flex;gap:18px;flex-wrap:wrap}
+.dbn{text-align:center}
+.dbn .v{font-size:22px;font-weight:900}
+.dbn .u{font-size:10px;font-family:'Courier New',monospace;color:var(--mid)}
+.dbc-bar{display:flex;height:4px;gap:1px;margin-top:12px;overflow:hidden}
+.hand-box{background:var(--card);padding:16px;margin-bottom:16px}
+.hand-grid{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+.hi{flex:1;min-width:140px}
+.hi-lbl{font-size:11px;font-family:'Courier New',monospace;text-transform:uppercase;margin-bottom:4px;letter-spacing:1.5px}
+.hi-val{font-size:26px;font-weight:900;color:var(--white)}
+.hi-hand{font-size:13px;color:var(--light);margin-top:3px}
+.hi-note{font-size:11px;color:var(--mid);margin-top:2px}
+.alert{padding:10px 14px;background:#2A1A00;border-left:3px solid #F9A825;font-size:12px;color:#F9A825;margin-bottom:14px;display:none}
+.alert.vis{display:block}
+.note{padding:14px 16px;background:var(--card);border-left:3px solid var(--red);font-size:12px;color:var(--mid);line-height:1.65}
+.note strong{color:var(--light)}
+@media(max-width:640px){
+  .macro-cards,.dbc-nums,.hand-grid,.goal-row,.neat-grid{flex-direction:column}
+  .goal-btn{border-right:none;border-bottom:1.5px solid #383838}
+  .goal-btn:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="tag">COMBUSTIBLE · Instituto BE</div>
+    <div class="title">Calculadora de macros<span> ·</span></div>
+    <div class="subtitle">Por tipo de entrenamiento y nivel de actividad diaria — la calculadora más completa.</div>
+  </div>
+</div>
+
+<div class="wrap"><div class="sections">
+
+<!-- PASO 1 -->
+<div class="section">
+  <span class="sec-label">01 · TUS DATOS</span>
+  <div class="row">
+    <div class="field"><label>Peso (kg)</label><input type="number" id="weight" placeholder="70" min="30" max="250"></div>
+    <div class="field"><label>Altura (cm)</label><input type="number" id="height" placeholder="170" min="100" max="230"></div>
+    <div class="field"><label>Edad</label><input type="number" id="age" placeholder="35" min="10" max="90"></div>
+    <div class="field" style="min-width:170px">
+      <label>Sexo biológico</label>
+      <div class="seg">
+        <button class="seg-btn on" id="btn-m" onclick="setSex(&#39;m&#39;)">Masculino</button>
+        <button class="seg-btn" id="btn-f" onclick="setSex(&#39;f&#39;)">Femenino</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label style="display:block;margin-bottom:7px;font-size:11px;color:var(--mid);font-family:&#39;Courier New&#39;,monospace;text-transform:uppercase;letter-spacing:1.5px">Objetivo</label>
+    <div class="goal-row">
+      <button class="goal-btn" id="g-lose" onclick="setGoal(&#39;lose&#39;)"><span class="gn">Perder grasa</span><span class="gd">Déficit moderado · preservar músculo</span></button>
+      <button class="goal-btn on" id="g-maintain" onclick="setGoal(&#39;maintain&#39;)"><span class="gn">Mantener</span><span class="gd">Calorías de mantenimiento</span></button>
+      <button class="goal-btn" id="g-gain" onclick="setGoal(&#39;gain&#39;)"><span class="gn">Ganar músculo</span><span class="gd">Superávit controlado · mínima grasa</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- PASO 2 NEAT -->
+<div class="section">
+  <span class="sec-label">02 · ACTIVIDAD DIARIA — FUERA DEL ENTRENAMIENTO</span>
+  <p style="font-size:13px;color:var(--light);line-height:1.55;margin-bottom:14px">El NEAT (actividad no deportiva) puede diferir hasta 600 kcal/día entre dos personas con el mismo entrenamiento. Elegí el que mejor describe tu día habitual <em>fuera</em> del gym.</p>
+  <div class="neat-grid" id="neat-grid"><button class="neat-btn on" id="neat-sedentary"><span class="neat-emoji">💻</span><div class="neat-text"><span class="nn">Sedentario</span><span class="nd">Trabajo de escritorio, auto, poco movimiento fuera del gym</span><span class="nb">+0 kcal/día</span></div></button><button class="neat-btn" id="neat-light"><span class="neat-emoji">🚶</span><div class="neat-text"><span class="nn">Levemente activo</span><span class="nd">Camino algo, de pie ocasionalmente, actividad ligera diaria</span><span class="nb">+120 kcal/día</span></div></button><button class="neat-btn" id="neat-moderate"><span class="neat-emoji">🏪</span><div class="neat-text"><span class="nn">Moderadamente activo</span><span class="nd">De pie varias horas, camino bastante, trabajo con movimiento</span><span class="nb">+280 kcal/día</span></div></button><button class="neat-btn" id="neat-very_active"><span class="neat-emoji">🔨</span><div class="neat-text"><span class="nn">Muy activo</span><span class="nd">Trabajo físico, de pie todo el día, mucho movimiento constante</span><span class="nb">+480 kcal/día</span></div></button></div>
+</div>
+
+<!-- PASO 3 SEMANA -->
+<div class="section">
+  <span class="sec-label">03 · TU SEMANA — DÍA A DÍA</span>
+  <p class="week-intro">Hacé clic en cada día y asigná el tipo de entrenamiento. Los macros se ajustan individualmente para cada tipo de día.</p>
+  <div class="week-grid" id="week-grid"><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Lun</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Mar</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Mié</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Jue</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Vie</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Sáb</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Dom</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div></div>
+  <div class="type-panel" id="type-panel">
+    <div class="tp-label" id="tp-label">SELECCIONÁ EL TIPO DE DÍA</div>
+    <div class="type-btns" id="type-btns"></div>
+  </div>
+  <div class="wsum" id="wsum"><div class="wbadge" style="background: rgba(74, 74, 74, 0.145); border: 1px solid rgba(74, 74, 74, 0.333); color: rgb(74, 74, 74);"><span>🛌</span><span>7× Descanso</span></div></div>
+  <button class="calc-btn" onclick="calculate()">CALCULAR MIS MACROS →</button>
+</div>
+
+<!-- RESULTADOS -->
+<div class="results" id="results">
+  <span class="sec-label">RESULTADOS · TU PLAN NUTRICIONAL</span>
+  <div class="alert" id="floor-alert">⚠️ <strong>Nota:</strong> el déficit calculado quedaba por debajo del mínimo saludable. Las calorías fueron ajustadas al piso mínimo recomendado.</div>
+  <div class="meta" id="meta"></div>
+  <p style="font-size:12px;color:var(--mid);margin:0 0 14px;font-style:italic">Promedio semanal — cada tipo de día tiene macros distintos según la demanda energética real.</p>
+  <div class="neat-impact" id="neat-impact">
+    <div class="ni-label">IMPACTO DEL NEAT EN TU PLAN</div>
+    <div class="ni-row" id="ni-row"></div>
+  </div>
+  <div class="macro-cards" id="macro-cards"></div>
+  <div class="dist-box">
+    <div class="dlabel">DISTRIBUCIÓN DE MACROS — PROMEDIO SEMANAL</div>
+    <div class="dist-bar" id="dist-bar"></div>
+    <div class="dist-leg" id="dist-leg"></div>
+  </div>
+  <div style="font-size:10px;font-family:&#39;Courier New&#39;,monospace;color:var(--mid);letter-spacing:2px;margin-bottom:10px">MACROS POR TIPO DE DÍA</div>
+  <div class="day-bd" id="day-bd"></div>
+  <div class="hand-box">
+    <div class="dlabel">LA HERRAMIENTA DE LA MANO — PROMEDIO DIARIO</div>
+    <p style="font-size:12px;color:var(--mid);margin-top:4px">Sin app, sin balanza — las porciones de tu mano como referencia.</p>
+    <div class="hand-grid" id="hand-grid"></div>
+  </div>
+  <div class="note"><strong>Estos son tus números de arranque.</strong> Seguí el plan 2 semanas, evaluá peso y rendimiento, y ajustá ±150 kcal según la respuesta real del cuerpo. El cuerpo es el dato más importante — la calculadora es el punto de partida.</div>
+</div>
+
+</div></div>
+
+<script>
+const DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+
+const NEAT_OPTIONS=[
+  {id:'sedentary',  label:'Sedentario',      emoji:'💻', desc:'Trabajo de escritorio, auto, poco movimiento fuera del gym', bonus:0,   tag:'+0 kcal/día'},
+  {id:'light',      label:'Levemente activo', emoji:'🚶', desc:'Camino algo, de pie ocasionalmente, actividad ligera diaria', bonus:120, tag:'+120 kcal/día'},
+  {id:'moderate',   label:'Moderadamente activo',emoji:'🏪',desc:'De pie varias horas, camino bastante, trabajo con movimiento', bonus:280, tag:'+280 kcal/día'},
+  {id:'very_active',label:'Muy activo',       emoji:'🔨', desc:'Trabajo físico, de pie todo el día, mucho movimiento constante', bonus:480, tag:'+480 kcal/día'},
+];
+
+const TYPES={
+  rest:    {label:'Descanso',         short:'DES',color:'#4A4A4A',factor:1.20,protG:1.72,fatPct:.32,emoji:'🛌'},
+  strength:{label:'Fuerza',           short:'FUE',color:'#1565C0',factor:1.52,protG:2.00,fatPct:.26,emoji:'🏋️'},
+  hiit:    {label:'Metabólico / HIIT',short:'HII',color:'#C62828',factor:1.61,protG:1.88,fatPct:.23,emoji:'⚡'},
+  cardio:  {label:'Cardio / Zona 2',  short:'CAR',color:'#2E7D32',factor:1.43,protG:1.78,fatPct:.28,emoji:'🏃'},
+  mixed:   {label:'Fuerza + Cardio',  short:'MIX',color:'#6A1B9A',factor:1.51,protG:1.90,fatPct:.25,emoji:'🔄'},
+};
+
+const GOAL_ADJ={lose:-320,maintain:0,gain:220};
+const GOAL_LBL={lose:'Perder grasa',maintain:'Mantener',gain:'Ganar músculo'};
+const MIN_KCAL={m:1500,f:1350};
+
+let sex='m', goal='maintain', neatId='sedentary';
+let days=Array(7).fill('rest'), selDay=null;
+
+function tmb(w,h,a,s){return 10*w+6.25*h-5*a+(s==='m'?5:-161);}
+
+function calcMacros(w,type,dayKcal){
+  const t=TYPES[type];
+  const prot=Math.round(w*t.protG);
+  const fat=Math.round(dayKcal*t.fatPct/9);
+  const carbs=Math.max(Math.round((dayKcal-prot*4-fat*9)/4),Math.round(w*0.8));
+  const kcal=Math.round(prot*4+carbs*4+fat*9);
+  const tot=prot*4+carbs*4+fat*9;
+  return{prot,carbs,fat,kcal,pPct:Math.round(prot*4/tot*100),cPct:Math.round(carbs*4/tot*100),fPct:Math.round(fat*9/tot*100)};
+}
+
+function calculate(){
+  const w=parseFloat(document.getElementById('weight').value);
+  const h=parseFloat(document.getElementById('height').value);
+  const a=parseInt(document.getElementById('age').value);
+  if(!w||!h||!a||w<30||h<100||a<10){alert('Completá todos los datos correctamente.');return;}
+
+  const base=tmb(w,h,a,sex);
+  const neat=NEAT_OPTIONS.find(n=>n.id===neatId);
+  const avgFactor=days.reduce((s,d)=>s+TYPES[d].factor,0)/7;
+  const avgTDEE=base*avgFactor + neat.bonus;
+  let targetAvg=avgTDEE+GOAL_ADJ[goal];
+  const floor=MIN_KCAL[sex];
+  const floored=targetAvg<floor;
+  if(floored)targetAvg=floor;
+  document.getElementById('floor-alert').classList.toggle('vis',floored);
+
+  // NEAT impact: compare with sedentary baseline
+  const baselineTDEE = base*avgFactor;
+  const neatDiff = neat.bonus;
+
+  const uniq=[...new Set(days)];
+  const dm={};
+  uniq.forEach(type=>{
+    const dayKcal=targetAvg*(TYPES[type].factor/avgFactor);
+    dm[type]=calcMacros(w,type,dayKcal);
+  });
+
+  const cnt={};uniq.forEach(t=>{cnt[t]=days.filter(d=>d===t).length;});
+  const avg=fn=>Math.round(uniq.reduce((s,t)=>s+fn(dm[t])*cnt[t],0)/7);
+  const avgKcal=avg(d=>d.kcal),avgProt=avg(d=>d.prot),avgCarbs=avg(d=>d.carbs),avgFatg=avg(d=>d.fat);
+  const totK=avgProt*4+avgCarbs*4+avgFatg*9;
+  const pPct=Math.round(avgProt*4/totK*100),cPct=Math.round(avgCarbs*4/totK*100),fPct=100-pPct-cPct;
+  const training=days.filter(d=>d!=='rest').length;
+
+  document.getElementById('results').classList.add('vis');
+
+  // Meta
+  document.getElementById('meta').innerHTML=
+    `<span>TMB: <strong>${Math.round(base)} kcal</strong></span><span style="color:#333">·</span>
+     <span>TDEE entrenamiento: <strong>${Math.round(base*avgFactor)} kcal</strong></span><span style="color:#333">·</span>
+     <span>NEAT: <span class="neat-tag">${neat.emoji} +${neat.bonus} kcal</span></span><span style="color:#333">·</span>
+     <span>TDEE total: <strong>${Math.round(avgTDEE)} kcal</strong></span><span style="color:#333">·</span>
+     <span>Objetivo: <span class="gt">${GOAL_LBL[goal]}</span></span>`;
+
+  // NEAT impact box
+  if(neat.bonus>0){
+    document.getElementById('neat-impact').classList.add('vis');
+    document.getElementById('ni-row').innerHTML=`
+      <div class="ni-item"><div class="v">${neat.emoji} +${neat.bonus}</div><div class="u">KCAL NEAT/DÍA</div></div>
+      <div class="ni-item"><div class="v">+${neat.bonus*7}</div><div class="u">KCAL EXTRA/SEMANA</div></div>
+      <div class="ni-item"><div class="v">+${Math.round(neat.bonus*365/7700)}</div><div class="u">KG EXTRA QUEMADOS/AÑO*</div></div>
+      <div style="flex:1;align-self:center;font-size:12px;color:var(--mid);font-style:italic">*respecto a una persona con las mismas características pero trabajo sedentario</div>`;
+  } else {
+    document.getElementById('neat-impact').classList.remove('vis');
+  }
+
+  // Macro cards
+  document.getElementById('macro-cards').innerHTML=[
+    {l:'Kcal promedio',v:avgKcal+'kcal',s:'por día — promedio semanal',col:'var(--red)'},
+    {l:'Proteína',v:avgProt+'g',s:`${(avgProt/w).toFixed(2)}g / kg de peso`,col:'var(--blue)'},
+    {l:'Carbohidratos',v:avgCarbs+'g',s:`${(avgCarbs/w).toFixed(2)}g / kg · ${avgCarbs*4}kcal`,col:'var(--amber)'},
+    {l:'Grasas',v:avgFatg+'g',s:`${(avgFatg/w).toFixed(2)}g / kg · ${Math.round(avgFatg*9)}kcal`,col:'var(--green)'},
+  ].map(m=>`<div class="mc" style="border-color:${m.col}"><div class="mc-lbl">${m.l}</div><div class="mc-val" style="color:${m.col}">${m.v}</div><div class="mc-sub">${m.s}</div></div>`).join('');
+
+  document.getElementById('dist-bar').innerHTML=`
+    <div style="width:${pPct}%;background:var(--blue)">${pPct}%</div>
+    <div style="width:${cPct}%;background:var(--amber)">${cPct}%</div>
+    <div style="width:${fPct}%;background:var(--green)">${fPct}%</div>`;
+  document.getElementById('dist-leg').innerHTML=`
+    <span style="color:var(--blue)">${pPct}% Proteína (${avgProt*4}kcal)</span>
+    <span style="color:var(--amber)">${cPct}% Carbohidratos (${avgCarbs*4}kcal)</span>
+    <span style="color:var(--green)">${fPct}% Grasas (${Math.round(avgFatg*9)}kcal)</span>`;
+
+  document.getElementById('day-bd').innerHTML=uniq.map(type=>{
+    const dt=TYPES[type],d=dm[type],c=cnt[type];
+    return`<div class="dbc" style="background:${dt.color}12;border-color:${dt.color}">
+      <div class="dbc-top">
+        <div class="dbc-info">
+          <span style="font-size:22px">${dt.emoji}</span>
+          <div><div class="dbc-name">${dt.label}</div><div class="dbc-days">${c} día${c>1?'s':''} / semana · Factor ${dt.factor.toFixed(2)}</div></div>
+        </div>
+        <div class="dbc-nums">
+          <div class="dbn"><div class="v" style="color:${dt.color}">${d.kcal}</div><div class="u">KCAL</div></div>
+          <div class="dbn"><div class="v" style="color:var(--blue)">${d.prot}g</div><div class="u">PROT</div></div>
+          <div class="dbn"><div class="v" style="color:var(--amber)">${d.carbs}g</div><div class="u">CARBS</div></div>
+          <div class="dbn"><div class="v" style="color:var(--green)">${d.fat}g</div><div class="u">GRASA</div></div>
+        </div>
+      </div>
+      <div class="dbc-bar">
+        <div style="width:${d.pPct}%;background:var(--blue)"></div>
+        <div style="width:${d.cPct}%;background:var(--amber)"></div>
+        <div style="width:${d.fPct}%;background:var(--green)"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const pH=Math.max(1,Math.round(avgProt/30)),cH=Math.max(1,Math.round(avgCarbs/45)),fH=Math.max(1,Math.round(avgFatg/14));
+  document.getElementById('hand-grid').innerHTML=[
+    {l:'Proteína',g:avgProt,h:`${pH} palma${pH>1?'s':''} / día`,n:'1 palma ≈ 25–35g proteína cocida',col:'var(--blue)'},
+    {l:'Carbohidratos',g:avgCarbs,h:`${cH} puño${cH>1?'s':''} / día`,n:'1 puño ≈ 40–50g carbos cocidos',col:'var(--amber)'},
+    {l:'Grasas',g:avgFatg,h:`${fH} pulgar${fH>1?'es':''} / día`,n:'1 pulgar ≈ 14g grasa (1 cda aceite)',col:'var(--green)'},
+  ].map(m=>`<div class="hi"><div class="hi-lbl" style="color:${m.col}">${m.l}</div><div class="hi-val">${m.g}g</div><div class="hi-hand">${m.h}</div><div class="hi-note">${m.n}</div></div>`).join('');
+
+  setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function setSex(s){sex=s;document.getElementById('btn-m').classList.toggle('on',s==='m');document.getElementById('btn-f').classList.toggle('on',s==='f');}
+function setGoal(g){goal=g;['lose','maintain','gain'].forEach(id=>document.getElementById('g-'+id).classList.toggle('on',id===g));}
+function setNeat(id){
+  neatId=id;
+  document.querySelectorAll('.neat-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('neat-'+id).classList.add('on');
+}
+
+function initNeat(){
+  const grid=document.getElementById('neat-grid');
+  NEAT_OPTIONS.forEach(n=>{
+    const btn=document.createElement('button');
+    btn.className='neat-btn'+(n.id==='sedentary'?' on':'');
+    btn.id='neat-'+n.id;
+    btn.onclick=()=>setNeat(n.id);
+    btn.innerHTML=`<span class="neat-emoji">${n.emoji}</span><div class="neat-text"><span class="nn">${n.label}</span><span class="nd">${n.desc}</span><span class="nb">${n.tag}</span></div>`;
+    grid.appendChild(btn);
+  });
+}
+
+function initGrid(){
+  const grid=document.getElementById('week-grid');grid.innerHTML='';
+  days.forEach((type,i)=>{
+    const dt=TYPES[type];
+    const card=document.createElement('div');
+    card.className='day'+(selDay===i?' sel':'');
+    card.style.background=dt.color+'22';
+    card.style.borderColor=dt.color;
+    card.innerHTML=`<div class="dn">${DAYS[i]}</div><span class="de">${dt.emoji}</span><div class="ds" style="color:${dt.color}">${dt.short}</div>`;
+    card.onclick=()=>selectDay(i);
+    grid.appendChild(card);
+  });
+  updateSummary();
+}
+
+function selectDay(i){
+  selDay=selDay===i?null:i;initGrid();
+  const panel=document.getElementById('type-panel');
+  if(selDay===null){panel.classList.remove('vis');return;}
+  panel.classList.add('vis');
+  document.getElementById('tp-label').textContent='TIPO DE DÍA — '+DAYS[selDay].toUpperCase();
+  const btns=document.getElementById('type-btns');btns.innerHTML='';
+  Object.entries(TYPES).forEach(([key,dt])=>{
+    const b=document.createElement('button');
+    const isOn=days[selDay]===key;
+    b.className='tbtn'+(isOn?' on':'');
+    b.style.borderColor=isOn?dt.color:'#555';
+    b.style.background=isOn?dt.color+'33':'var(--card)';
+    if(isOn)b.style.color='#fff';
+    b.innerHTML=`<span>${dt.emoji}</span><span>${dt.label}</span>`;
+    b.onclick=()=>{days[selDay]=key;initGrid();selectDay(selDay);};
+    btns.appendChild(b);
+  });
+}
+
+function updateSummary(){
+  const sum=document.getElementById('wsum');sum.innerHTML='';
+  const counts={};days.forEach(d=>{counts[d]=(counts[d]||0)+1;});
+  Object.entries(counts).forEach(([key,cnt])=>{
+    const dt=TYPES[key];const b=document.createElement('div');
+    b.className='wbadge';
+    b.style.background=dt.color+'25';
+    b.style.border=`1px solid ${dt.color}55`;
+    b.style.color=dt.color;
+    b.innerHTML=`<span>${dt.emoji}</span><span>${cnt}\xd7 ${dt.label}</span>`;
+    sum.appendChild(b);
+  });
+}
+
+initNeat();
+initGrid();
+</script>
+
+</body></html>

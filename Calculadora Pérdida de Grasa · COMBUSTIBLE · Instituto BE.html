@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)file:///C:/Users/Usuario/Downloads/calculadora-sobrepeso-combustible.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Pérdida de Grasa · COMBUSTIBLE · Instituto BE</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0A0A;color:#F5F5F0;font-family:Arial,sans-serif;min-height:100vh;padding-bottom:60px}
+:root{--red:#E01A1A;--dark:#141414;--card:#1A1A1A;--gray:#262626;--mid:#888;--light:#CCC;--white:#F5F5F0;--blue:#1E88E5;--amber:#F9A825;--green:#43A047;--orange:#E65100}
+.header{background:var(--dark);border-bottom:4px solid var(--red);padding:20px 24px 16px}
+.hi{max-width:940px;margin:0 auto}
+.tag{font-family:'Courier New',monospace;font-size:11px;color:var(--red);letter-spacing:3px;font-weight:700;margin-bottom:6px}
+.title{font-size:26px;font-weight:900;color:var(--white);line-height:1.1}
+.title span{color:var(--red)}
+.sub{font-size:13px;color:var(--mid);margin-top:5px;font-style:italic}
+.wrap{max-width:940px;margin:0 auto;padding:0 14px}
+.secs{display:flex;flex-direction:column;gap:3px;margin-top:18px}
+.sec{background:var(--card);padding:22px 20px 18px;position:relative}
+.sec::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
+.slbl{font-family:'Courier New',monospace;font-size:10px;color:var(--red);letter-spacing:3px;font-weight:700;display:block;margin-bottom:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.f{display:flex;flex-direction:column;gap:5px;flex:1;min-width:85px}
+.f label{font-size:11px;color:var(--mid);font-family:'Courier New',monospace;text-transform:uppercase;letter-spacing:1.5px}
+input[type=number],input[type=text]{background:var(--gray);border:1.5px solid #383838;color:var(--white);font-size:16px;font-weight:700;padding:10px 12px;outline:none;width:100%;-moz-appearance:textfield;border-radius:0;transition:border .15s}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+input:focus{border-color:var(--red)}
+input::placeholder{color:#555;font-weight:400;font-size:14px}
+.seg{display:flex;border:1.5px solid #383838}
+.sb{flex:1;padding:10px;background:var(--gray);color:var(--light);border:none;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+.sb:not(:last-child){border-right:1.5px solid #383838}
+.sb.on{background:var(--red);color:#fff;font-weight:700}
+/* NEAT */
+.neat-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
+.nb{padding:11px 13px;background:var(--gray);border:1.5px solid #383838;color:var(--light);cursor:pointer;text-align:left;transition:all .12s}
+.nb:hover{border-color:#666}
+.nb.on{border-color:var(--red);background:#220000}
+.nb.on .nn,.nb.on .nk{color:#fff}
+.nn{display:block;font-size:13px;font-weight:700;margin-bottom:2px;color:var(--light)}
+.nd{font-size:11px;color:var(--mid);line-height:1.4;margin-bottom:3px}
+.nk{font-size:11px;font-family:'Courier New',monospace;color:var(--red)}
+/* WEEK */
+.wintro{font-size:13px;color:var(--light);line-height:1.5;margin-bottom:12px}
+.wgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:9px}
+.day{background:var(--gray);border:2px solid #383838;padding:9px 3px 7px;cursor:pointer;text-align:center;transition:all .15s;user-select:none}
+.day:hover{border-color:#666}
+.day.sel{outline:2.5px solid #fff;outline-offset:2px}
+.dn{font-size:11px;color:var(--light);font-family:'Courier New',monospace;margin-bottom:4px;font-weight:700}
+.de{font-size:18px;display:block;margin:2px 0}
+.ds{font-size:10px;font-family:'Courier New',monospace;font-weight:700;letter-spacing:1px;margin-top:2px}
+.tpanel{background:var(--gray);padding:12px;border-top:2px solid var(--red);display:none;margin-bottom:9px}
+.tpanel.vis{display:block}
+.tplbl{font-size:11px;color:var(--mid);font-family:'Courier New',monospace;margin-bottom:8px}
+.tbtns{display:flex;gap:6px;flex-wrap:wrap}
+.tb{padding:7px 12px;cursor:pointer;font-size:12px;font-weight:500;border:1.5px solid #555;background:var(--card);color:var(--light);display:flex;align-items:center;gap:6px;transition:all .12s}
+.tb:hover{border-color:#999}
+.tb.on{font-weight:700;color:#fff}
+.wsum{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;min-height:26px}
+.wbadge{padding:4px 10px;display:flex;gap:6px;align-items:center;font-size:12px;font-family:'Courier New',monospace}
+/* GOAL */
+.goal-sec{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.goal-block{display:flex;flex-direction:column;gap:8px}
+.goal-lbl{font-size:11px;color:var(--mid);font-family:'Courier New',monospace;text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:2px}
+.opt-row{display:flex;gap:0;border:1.5px solid #383838}
+.ob{flex:1;padding:10px 6px;background:var(--gray);border:none;color:var(--light);cursor:pointer;font-size:13px;font-weight:500;transition:all .12s;text-align:center}
+.ob:not(:last-child){border-right:1.5px solid #383838}
+.ob.on{background:var(--red);color:#fff;font-weight:700}
+/* CALC BTN */
+.cbtn{background:var(--red);color:#fff;border:none;padding:14px;font-size:15px;font-weight:700;cursor:pointer;width:100%;margin-top:16px;letter-spacing:2px;font-family:'Courier New',monospace;transition:all .2s}
+.cbtn:hover{background:#c01515}
+/* RESULTS */
+.results{background:var(--dark);padding:22px 20px;display:none;position:relative}
+.results::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
+.results.vis{display:block}
+/* VIABILITY BANNER */
+.vbanner{padding:14px 16px;margin-bottom:16px;border-left:4px solid;font-size:14px;line-height:1.6}
+.vbanner.green{background:#0A1F0A;border-color:var(--green)}
+.vbanner.amber{background:#1F150A;border-color:var(--amber)}
+.vbanner.red-b{background:#1F0A0A;border-color:var(--red)}
+.vbanner strong{font-size:15px;display:block;margin-bottom:4px}
+/* SUMMARY CARDS */
+.scards{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.sc{background:var(--card);padding:14px;flex:1;min-width:100px;border-top:3px solid}
+.sc-lbl{font-size:10px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:2px;margin-bottom:4px}
+.sc-val{font-size:32px;font-weight:900;line-height:1;margin-bottom:2px}
+.sc-sub{font-size:12px;color:var(--light)}
+/* PLAN TABLE */
+.plan-box{background:var(--card);padding:14px;margin-bottom:14px}
+.plan-lbl{font-size:10px;font-family:'Courier New',monospace;color:var(--mid);letter-spacing:2px;margin-bottom:10px}
+.plan-table{width:100%;border-collapse:collapse}
+.plan-table th{background:#111;font-size:11px;font-family:'Courier New',monospace;color:var(--mid);padding:8px 10px;text-align:left;letter-spacing:1px}
+.plan-table td{padding:9px 10px;font-size:13px;color:var(--light);border-bottom:1px solid #222}
+.plan-table tr:last-child td{border-bottom:none}
+.plan-table tr:nth-child(even) td{background:#1E1E1E}
+/* MACRO DIST */
+.dist-box{background:var(--card);padding:14px;margin-bottom:14px}
+.dist-bar{display:flex;height:20px;gap:2px;margin:8px 0 4px;overflow:hidden}
+.dist-bar div{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000}
+.dist-leg{display:flex;gap:14px;flex-wrap:wrap}
+.dist-leg span{font-size:12px}
+/* SUGGESTIONS */
+.sugg-box{background:#0A1520;border-top:3px solid var(--blue);padding:16px;margin-bottom:14px}
+.sugg-lbl{font-size:10px;font-family:'Courier New',monospace;color:var(--blue);letter-spacing:2px;margin-bottom:10px}
+.sugg-item{padding:10px 12px;background:var(--card);margin-bottom:7px;border-left:3px solid var(--blue);font-size:13px;color:var(--light);line-height:1.55}
+.sugg-item:last-child{margin-bottom:0}
+.sugg-item strong{color:#fff;display:block;margin-bottom:3px}
+/* PROJECTION */
+.proj-box{background:var(--card);padding:14px;margin-bottom:14px}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:8px}
+.proj-card{background:var(--gray);padding:10px 12px;text-align:center}
+.proj-wk{font-size:11px;font-family:'Courier New',monospace;color:var(--mid);margin-bottom:4px}
+.proj-kg{font-size:22px;font-weight:900;color:var(--green)}
+.proj-lost{font-size:11px;color:var(--mid);margin-top:2px}
+/* NOTE */
+.note{padding:12px 14px;background:var(--card);border-left:3px solid var(--red);font-size:12px;color:var(--mid);line-height:1.6}
+.note strong{color:var(--light)}
+/* ALERT */
+.alert{padding:9px 13px;background:#1A1200;border-left:3px solid var(--amber);font-size:12px;color:var(--amber);margin-bottom:12px;display:none}
+.alert.vis{display:block}
+@media(max-width:640px){
+  .neat-grid,.goal-sec{grid-template-columns:1fr}
+  .scards{flex-direction:column}
+  .wgrid{gap:4px}
+  .de{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="hi">
+    <div class="tag">COMBUSTIBLE · Instituto BE</div>
+    <div class="title">Calculadora de pérdida de grasa<span> ·</span></div>
+    <div class="sub">Para clientes con sobrepeso — objetivo realista, timing saludable, sugerencias de entrenamiento.</div>
+  </div>
+</div>
+
+<div class="wrap"><div class="secs">
+
+<!-- S1: DATOS -->
+<div class="sec">
+  <span class="slbl">01 · DATOS DEL CLIENTE</span>
+  <div class="row">
+    <div class="f"><label>Nombre (opcional)</label><input type="text" id="name" placeholder="Cliente..."></div>
+    <div class="f"><label>Peso actual (kg)</label><input type="number" id="weight" placeholder="80" min="30" max="300"></div>
+    <div class="f"><label>Altura (cm)</label><input type="number" id="height" placeholder="165" min="100" max="230"></div>
+    <div class="f"><label>Edad</label><input type="number" id="age" placeholder="35" min="10" max="90"></div>
+    <div class="f" style="min-width:160px">
+      <label>Sexo biológico</label>
+      <div class="seg">
+        <button class="sb on" id="bm" onclick="setSex(&#39;m&#39;)">Masculino</button>
+        <button class="sb" id="bf" onclick="setSex(&#39;f&#39;)">Femenino</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: NEAT -->
+<div class="sec">
+  <span class="slbl">02 · ACTIVIDAD DIARIA FUERA DEL ENTRENAMIENTO (NEAT)</span>
+  <p style="font-size:13px;color:var(--light);margin-bottom:10px;line-height:1.5">Todo el movimiento fuera del gym. Dos personas con el mismo entrenamiento pueden diferir <strong style="color:#fff">300-500 kcal/día</strong> por esto.</p>
+  <div class="neat-grid" id="neat-grid"><button class="nb on" data-id="sed"><span class="nn">Sedentario <span style="font-size:11px;opacity:.7">(base)</span></span><span class="nd">Escritorio, auto, poco movimiento</span></button><button class="nb" data-id="light"><span class="nn">Levemente activo <span style="font-size:11px;opacity:.7">(+130 kcal/día)</span></span><span class="nd">Algo de caminata, de pie ocasional</span></button><button class="nb" data-id="mod"><span class="nn">Moderadamente activo <span style="font-size:11px;opacity:.7">(+280 kcal/día)</span></span><span class="nd">De pie varias horas, bastante movimiento</span></button><button class="nb" data-id="very"><span class="nn">Muy activo <span style="font-size:11px;opacity:.7">(+460 kcal/día)</span></span><span class="nd">Trabajo físico, de pie todo el día</span></button></div>
+</div>
+
+<!-- S3: SEMANA -->
+<div class="sec">
+  <span class="slbl">03 · SEMANA DE ENTRENAMIENTO — DÍA A DÍA</span>
+  <p class="wintro">Clic en cada día para asignar el tipo de entrenamiento del cliente.</p>
+  <div class="wgrid" id="wgrid"><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Lun</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Mar</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Mié</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Jue</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Vie</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Sáb</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div><div class="day" style="background: rgba(74, 74, 74, 0.133); border-color: rgb(74, 74, 74);"><div class="dn">Dom</div><span class="de">🛌</span><div class="ds" style="color:#4A4A4A">DES</div></div></div>
+  <div class="tpanel" id="tpanel">
+    <div class="tplbl" id="tplbl">TIPO DE DÍA</div>
+    <div class="tbtns" id="tbtns"></div>
+  </div>
+  <div class="wsum" id="wsum"><div class="wbadge" style="background: rgba(74, 74, 74, 0.133); border: 1px solid rgba(74, 74, 74, 0.333); color: rgb(74, 74, 74);"><span>🛌</span><span>7× Descanso</span></div></div>
+</div>
+
+<!-- S4: OBJETIVO -->
+<div class="sec">
+  <span class="slbl">04 · OBJETIVO DE PÉRDIDA DE GRASA</span>
+  <div class="goal-sec">
+    <div class="goal-block">
+      <span class="goal-lbl">Kilos a perder</span>
+      <div class="opt-row">
+        <button class="ob on" id="kg5" onclick="setKg(5)">5 kg</button>
+        <button class="ob" id="kg10" onclick="setKg(10)">10 kg</button>
+        <button class="ob" id="kg15" onclick="setKg(15)">15 kg</button>
+      </div>
+    </div>
+    <div class="goal-block">
+      <span class="goal-lbl">Tiempo disponible</span>
+      <div class="opt-row">
+        <button class="ob on" id="m2" onclick="setMeses(2)">2 meses</button>
+        <button class="ob" id="m4" onclick="setMeses(4)">4 meses</button>
+        <button class="ob" id="m6" onclick="setMeses(6)">6 meses</button>
+      </div>
+    </div>
+  </div>
+  <button class="cbtn" onclick="calculate()">CALCULAR PLAN →</button>
+</div>
+
+<!-- RESULTADOS -->
+<div class="results" id="results">
+  <span class="slbl">RESULTADOS · PLAN NUTRICIONAL Y DE ENTRENAMIENTO</span>
+  <div class="alert" id="floor-alert">⚠️ El déficit calculado requeriría restricción extrema. Las calorías fueron ajustadas al piso mínimo saludable.</div>
+  <div class="vbanner" id="vbanner"></div>
+  <div class="scards" id="scards"></div>
+  <div class="plan-box">
+    <div class="plan-lbl">MACROS POR TIPO DE DÍA</div>
+    <table class="plan-table" id="plan-table"></table>
+  </div>
+  <div class="dist-box">
+    <div class="plan-lbl">DISTRIBUCIÓN PROMEDIO SEMANAL</div>
+    <div class="dist-bar" id="dist-bar"></div>
+    <div class="dist-leg" id="dist-leg"></div>
+  </div>
+  <div class="sugg-box" id="sugg-box" style="display:none">
+    <div class="sugg-lbl">💡 SUGERENCIAS DE ENTRENAMIENTO PARA OPTIMIZAR EL OBJETIVO</div>
+    <div id="sugg-items"></div>
+  </div>
+  <div class="proj-box">
+    <div class="plan-lbl">PROYECCIÓN MENSUAL DE PÉRDIDA DE PESO</div>
+    <div class="proj-grid" id="proj-grid"></div>
+  </div>
+  <div class="note" id="note"></div>
+</div>
+
+</div></div>
+
+<script>
+const DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const TYPES={
+  rest:    {label:'Descanso',    short:'DES',color:'#4A4A4A',factor:1.00,protG:1.72,fatPct:.32,emoji:'🛌'},
+  strength:{label:'Fuerza',      short:'FUE',color:'#1565C0',factor:1.52,protG:2.00,fatPct:.26,emoji:'🏋️'},
+  hiit:    {label:'HIIT',        short:'HII',color:'#C62828',factor:1.61,protG:1.88,fatPct:.23,emoji:'⚡'},
+  cardio:  {label:'Cardio Z2',   short:'CAR',color:'#2E7D32',factor:1.43,protG:1.78,fatPct:.28,emoji:'🏃'},
+  walk:    {label:'Caminata',    short:'CAM',color:'#558B2F',factor:1.28,protG:1.72,fatPct:.30,emoji:'🚶'},
+  mixed:   {label:'Mixto',       short:'MIX',color:'#6A1B9A',factor:1.51,protG:1.90,fatPct:.25,emoji:'🔄'},
+};
+const NEAT_LEVELS=[
+  {id:'sed',  label:'Sedentario',        desc:'Escritorio, auto, poco movimiento',kcal:0},
+  {id:'light',label:'Levemente activo',  desc:'Algo de caminata, de pie ocasional',kcal:130},
+  {id:'mod',  label:'Moderadamente activo',desc:'De pie varias horas, bastante movimiento',kcal:280},
+  {id:'very', label:'Muy activo',        desc:'Trabajo físico, de pie todo el día',kcal:460},
+];
+const MIN_KCAL={m:1500,f:1300};
+const MAX_DEF={m:800,f:700};
+const KCAL_PER_KG=7700;
+
+let sex='m',neat='sed',days=Array(7).fill('rest'),selDay=null,goalKg=5,goalMeses=2;
+
+function tmb(w,h,a,s){return 10*w+6.25*h-5*a+(s==='m'?5:-161);}
+
+function calcMacros(w,type,dayKcal){
+  const t=TYPES[type];
+  const prot=Math.round(w*t.protG);
+  const fat=Math.round(dayKcal*t.fatPct/9);
+  const carbs=Math.max(Math.round((dayKcal-prot*4-fat*9)/4),Math.round(w*0.6));
+  const kcal=Math.round(prot*4+carbs*4+fat*9);
+  const tot=prot*4+carbs*4+fat*9;
+  return{prot,carbs,fat,kcal,pPct:Math.round(prot*4/tot*100),cPct:Math.round(carbs*4/tot*100),fPct:Math.round(fat*9/tot*100)};
+}
+
+function calculate(){
+  const w=parseFloat(document.getElementById('weight').value);
+  const h=parseFloat(document.getElementById('height').value);
+  const a=parseInt(document.getElementById('age').value);
+  if(!w||!h||!a||w<30||h<100||a<10){alert('Completá los datos del cliente.');return;}
+
+  const neatKcal=NEAT_LEVELS.find(n=>n.id===neat).kcal;
+  const base=tmb(w,h,a,sex);
+  const avgFactor=days.reduce((s,d)=>s+TYPES[d].factor,0)/7;
+  const avgTDEE=base*avgFactor+neatKcal;
+
+  // Deficit needed
+  const days_total=goalMeses*30;
+  const defNeeded=Math.round(goalKg*KCAL_PER_KG/days_total);
+  const maxDef=MAX_DEF[sex];
+  const floor=MIN_KCAL[sex];
+
+  let defApplied=defNeeded;
+  let viability='green';
+  let viabilityMsg='';
+  let adjustedKg=goalKg;
+  let adjustedMeses=goalMeses;
+  let floored=false;
+
+  if(defNeeded>maxDef){
+    // Unrealistic — calculate what's achievable
+    viability='red-b';
+    const achievableKg=Math.round(maxDef*days_total/KCAL_PER_KG*10)/10;
+    const neededMeses=Math.ceil(goalKg*KCAL_PER_KG/(maxDef*30)/0.5)*0.5;
+    defApplied=maxDef;
+    adjustedKg=achievableKg;
+    viabilityMsg=`<strong>⚠️ Objetivo muy agresivo para el tiempo elegido</strong>Con un déficit seguro máximo de ${maxDef} kcal/día, en ${goalMeses} meses se puede perder aproximadamente <strong>${achievableKg} kg</strong> de forma saludable. Para perder los ${goalKg} kg completos con seguridad, se necesitan al menos <strong>${Math.round(neededMeses)} meses</strong>.`;
+  } else if(defNeeded>maxDef*0.8){
+    viability='amber';
+    defApplied=defNeeded;
+    const kgPerWeek=Math.round(defApplied*7/KCAL_PER_KG*10)/10;
+    viabilityMsg=`<strong>⚡ Objetivo alcanzable pero exigente</strong>El déficit necesario es de ${defNeeded} kcal/día — en el límite superior del rango saludable. Requiere consistencia alta. Pérdida estimada: ${kgPerWeek} kg/semana. Monitorear energía y rendimiento en el entrenamiento.`;
+  } else {
+    defApplied=defNeeded;
+    const kgPerWeek=Math.round(defApplied*7/KCAL_PER_KG*10)/10;
+    viabilityMsg=`<strong>✅ Objetivo realista y saludable</strong>El déficit necesario es de ${defApplied} kcal/día — dentro del rango seguro y sostenible. Pérdida estimada: ${kgPerWeek} kg/semana. Este ritmo preserva masa muscular y es compatible con el entrenamiento.`;
+  }
+
+  let targetAvg=avgTDEE-defApplied;
+  if(targetAvg<floor){targetAvg=floor;floored=true;}
+  document.getElementById('floor-alert').classList.toggle('vis',floored);
+
+  // Per day macros
+  const uniq=[...new Set(days)];
+  const dm={};
+  uniq.forEach(type=>{
+    const dayKcal=targetAvg*(TYPES[type].factor/avgFactor);
+    dm[type]=calcMacros(w,type,dayKcal);
+  });
+  const cnt={};uniq.forEach(t=>{cnt[t]=days.filter(d=>d===t).length;});
+  const avg=fn=>Math.round(uniq.reduce((s,t)=>s+fn(dm[t])*cnt[t],0)/7);
+  const avgKcal=avg(d=>d.kcal),avgProt=avg(d=>d.prot),avgCarbs=avg(d=>d.carbs),avgFat=avg(d=>d.fat);
+  const totK=avgProt*4+avgCarbs*4+avgFat*9;
+  const pPct=Math.round(avgProt*4/totK*100),cPct=Math.round(avgCarbs*4/totK*100),fPct=100-pPct-cPct;
+  const trainingDays=days.filter(d=>d!=='rest').length;
+  const kgPerWeek=Math.round(defApplied*7/KCAL_PER_KG*100)/100;
+  const name=document.getElementById('name').value.trim();
+
+  // RENDER
+  document.getElementById('results').classList.add('vis');
+
+  // Viability banner
+  const vb=document.getElementById('vbanner');
+  vb.className='vbanner '+viability;
+  vb.innerHTML=viabilityMsg;
+
+  // Summary cards
+  const clientLbl=name?`${name} · `:'';
+  document.getElementById('scards').innerHTML=[
+    {l:'Kcal objetivo / día',v:avgKcal+'kcal',s:`Promedio semanal · Déficit ${defApplied} kcal/día`,col:'var(--red)'},
+    {l:'TDEE (mantenimiento)',v:Math.round(avgTDEE)+'kcal',s:`TMB ${Math.round(base)} + NEAT ${neatKcal} kcal`,col:'var(--mid)'},
+    {l:'Proteína promedio',v:avgProt+'g',s:`${(avgProt/w).toFixed(2)}g / kg · prioridad`,col:'var(--blue)'},
+    {l:'Velocidad estimada',v:kgPerWeek+'kg',s:'por semana de pérdida',col:'var(--green)'},
+  ].map(m=>`<div class="sc" style="border-color:${m.col}"><div class="sc-lbl">${m.l}</div><div class="sc-val" style="color:${m.col}">${m.v}</div><div class="sc-sub">${m.s}</div></div>`).join('');
+
+  // Plan table
+  const thead='<tr><th>TIPO DE DÍA</th><th>DÍAS/SEM</th><th>KCAL</th><th>PROTEÍNA</th><th>CARBOS</th><th>GRASAS</th></tr>';
+  const tbody=uniq.map(type=>{
+    const dt=TYPES[type],d=dm[type],c=cnt[type];
+    return`<tr><td><span style="color:${dt.color}">${dt.emoji} ${dt.label}</span></td><td style="color:var(--mid)">${c}×</td><td style="color:${dt.color};font-weight:700">${d.kcal}</td><td style="color:var(--blue)">${d.prot}g</td><td style="color:var(--amber)">${d.carbs}g</td><td style="color:var(--green)">${d.fat}g</td></tr>`;
+  }).join('');
+  document.getElementById('plan-table').innerHTML=thead+tbody;
+
+  // Distribution bar
+  document.getElementById('dist-bar').innerHTML=`
+    <div style="width:${pPct}%;background:var(--blue)">${pPct}%</div>
+    <div style="width:${cPct}%;background:var(--amber)">${cPct}%</div>
+    <div style="width:${fPct}%;background:var(--green)">${fPct}%</div>`;
+  document.getElementById('dist-leg').innerHTML=`
+    <span style="color:var(--blue)">${pPct}% Proteína (${avgProt*4}kcal)</span>
+    <span style="color:var(--amber)">${cPct}% Carbohidratos (${avgCarbs*4}kcal)</span>
+    <span style="color:var(--green)">${fPct}% Grasas (${Math.round(avgFat*9)}kcal)</span>`;
+
+  // Training suggestions
+  const strengthDays=days.filter(d=>d==='strength'||d==='mixed').length;
+  const cardioDays=days.filter(d=>d==='cardio'||d==='hiit'||d==='walk').length;
+  const restDays=days.filter(d=>d==='rest').length;
+  const suggestions=[];
+
+  if(trainingDays===0){
+    suggestions.push({t:'Incorporar entrenamiento — es indispensable',d:'Sin actividad física, el déficit calórico generará pérdida de músculo junto con grasa. Mínimo recomendado: 2 días de fuerza + 2 caminatas de 30-45 minutos. El músculo es el tejido metabólicamente más activo — perderlo compromete el resultado a largo plazo.'});
+  } else {
+    if(strengthDays===0){
+      suggestions.push({t:'Agregar entrenamiento de fuerza — no negociable en déficit',d:'En déficit calórico sin estímulo de fuerza, el cuerpo pierde músculo junto con grasa. Recomendación: incorporar 2 sesiones de fuerza por semana. No hace falta un gimnasio completo — trabajo con peso corporal o mancuernas es suficiente para el estímulo inicial.'});
+    } else if(strengthDays===1){
+      suggestions.push({t:'Aumentar a 2 sesiones de fuerza por semana',d:'Una sola sesión de fuerza no es suficiente estímulo para preservar toda la masa muscular en déficit. Agregar una segunda sesión — no hace falta que sea el mismo volumen, puede ser más corta y enfocada en los mismos grupos musculares.'});
+    }
+    if(cardioDays===0&&trainingDays>0){
+      suggestions.push({t:'Agregar Cardio Zona 2 o caminata para aumentar el gasto',d:'Sin actividad aeróbica, el déficit recae completamente en restringir calorías. Agregar 2-3 caminatas de 30-45 minutos o sesiones de cardio Zona 2 aumenta el gasto sin comprometer la recuperación muscular ni el rendimiento en fuerza. Es el complemento ideal en pérdida de grasa.'});
+    }
+    if(viability==='red-b'&&trainingDays<5){
+      suggestions.push({t:'Para hacer el objetivo más alcanzable: sumar actividad en lugar de recortar más calorías',d:`El objetivo de ${goalKg} kg en ${goalMeses} meses requiere un déficit mayor al recomendado. La alternativa más saludable no es comer menos — es gastar más con actividad adicional. Agregar 2-3 caminatas de 40 minutos/semana puede sumar ~300 kcal/día al gasto y hacer el objetivo alcanzable sin comprometer la nutrición.`});
+    }
+    if(strengthDays>=2&&cardioDays>=1&&viability==='green'){
+      suggestions.push({t:'✅ Plan de entrenamiento bien estructurado para el objetivo',d:'La combinación de fuerza + cardio es ideal para pérdida de grasa con preservación muscular. Asegurate de que la proteína sea la prioridad en la nutrición — es lo que va a proteger el músculo durante el déficit. La hidratación y el sueño son los otros dos factores críticos que no aparecen en una calculadora.'});
+    }
+  }
+
+  const sbox=document.getElementById('sugg-box');
+  const sitems=document.getElementById('sugg-items');
+  if(suggestions.length>0){
+    sbox.style.display='block';
+    sitems.innerHTML=suggestions.map(s=>`<div class="sugg-item"><strong>${s.t}</strong>${s.d}</div>`).join('');
+  } else {
+    sbox.style.display='none';
+  }
+
+  // Projection
+  const projMeses=Math.max(goalMeses,Math.ceil(goalKg/kgPerWeek/4.3));
+  const projGrid=document.getElementById('proj-grid');
+  projGrid.innerHTML='';
+  let cumKg=0;
+  for(let m=1;m<=Math.min(projMeses,8);m++){
+    const lost=Math.min(Math.round(kgPerWeek*4.3*m*10)/10,goalKg);
+    const wCur=Math.round((w-lost)*10)/10;
+    const isGoal=lost>=goalKg;
+    const card=document.createElement('div');
+    card.className='proj-card';
+    card.style.background=isGoal?'#0A1F0A':'var(--gray)';
+    card.innerHTML=`<div class="proj-wk">MES ${m}${isGoal?' 🎯':''}</div><div class="proj-kg" style="color:${isGoal?'var(--green)':'var(--amber)'}">${wCur} kg</div><div class="proj-lost">−${lost} kg perdidos</div>`;
+    projGrid.appendChild(card);
+  }
+
+  // Note
+  document.getElementById('note').innerHTML=`<strong>Nota para el coach:</strong> Estos números son el punto de partida. Revisar en 2-3 semanas con los datos reales del cliente. Si el rendimiento en el entrenamiento cae, aumentar 100-150 kcal — preferentemente en carbos pre-entreno. La proteína no baja nunca. El ritmo de pérdida ideal: 0.5-1% del peso corporal por semana — por encima de eso, el riesgo de perder músculo aumenta significativamente.`;
+
+  setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function setSex(s){sex=s;document.getElementById('bm').classList.toggle('on',s==='m');document.getElementById('bf').classList.toggle('on',s==='f');}
+function setKg(k){goalKg=k;[5,10,15].forEach(v=>document.getElementById('kg'+v).classList.toggle('on',v===k));}
+function setMeses(m){goalMeses=m;[2,4,6].forEach(v=>document.getElementById('m'+v).classList.toggle('on',v===m));}
+function setNeat(id){
+  neat=id;
+  document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+}
+function initNeat(){
+  const g=document.getElementById('neat-grid');
+  NEAT_LEVELS.forEach(nl=>{
+    const b=document.createElement('button');
+    b.className='nb'+(nl.id===neat?' on':'');
+    b.dataset.id=nl.id;
+    b.innerHTML=`<span class="nn">${nl.label}${nl.kcal>0?' <span style="font-size:11px;opacity:.7">(+'+nl.kcal+' kcal/día)</span>':' <span style="font-size:11px;opacity:.7">(base)</span>'}</span><span class="nd">${nl.desc}</span>`;
+    b.onclick=()=>setNeat(nl.id);
+    g.appendChild(b);
+  });
+}
+function initGrid(){
+  const g=document.getElementById('wgrid');g.innerHTML='';
+  days.forEach((type,i)=>{
+    const dt=TYPES[type];
+    const c=document.createElement('div');
+    c.className='day'+(selDay===i?' sel':'');
+    c.style.background=dt.color+'22';
+    c.style.borderColor=dt.color;
+    c.innerHTML=`<div class="dn">${DAYS[i]}</div><span class="de">${dt.emoji}</span><div class="ds" style="color:${dt.color}">${dt.short}</div>`;
+    c.onclick=()=>selectDay(i);
+    g.appendChild(c);
+  });
+  updateSummary();
+}
+function selectDay(i){
+  selDay=selDay===i?null:i;initGrid();
+  const p=document.getElementById('tpanel');
+  if(selDay===null){p.classList.remove('vis');return;}
+  p.classList.add('vis');
+  document.getElementById('tplbl').textContent='TIPO DE DÍA — '+DAYS[selDay].toUpperCase();
+  const btns=document.getElementById('tbtns');btns.innerHTML='';
+  Object.entries(TYPES).forEach(([key,dt])=>{
+    const b=document.createElement('button');
+    const on=days[selDay]===key;
+    b.className='tb'+(on?' on':'');
+    b.style.borderColor=on?dt.color:'#555';
+    b.style.background=on?dt.color+'33':'var(--card)';
+    if(on)b.style.color='#fff';
+    b.innerHTML=`<span>${dt.emoji}</span><span>${dt.label}</span>`;
+    b.onclick=()=>{days[selDay]=key;initGrid();selectDay(selDay);};
+    btns.appendChild(b);
+  });
+}
+function updateSummary(){
+  const s=document.getElementById('wsum');s.innerHTML='';
+  const counts={};days.forEach(d=>{counts[d]=(counts[d]||0)+1;});
+  Object.entries(counts).forEach(([key,cnt])=>{
+    const dt=TYPES[key];
+    const b=document.createElement('div');
+    b.className='wbadge';
+    b.style.background=dt.color+'22';
+    b.style.border=`1px solid ${dt.color}55`;
+    b.style.color=dt.color;
+    b.innerHTML=`<span>${dt.emoji}</span><span>${cnt}× ${dt.label}</span>`;
+    s.appendChild(b);
+  });
+}
+initNeat();initGrid();
+</script>
+
+
+</body></html>
